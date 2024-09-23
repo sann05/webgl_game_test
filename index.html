@@ -31,8 +31,13 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
-      var unityInstance = null; // Define the variable globally
 
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -54,24 +59,41 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/WEBGL_Saving.loader.js";
       var config = {
-        dataUrl: buildUrl + "/c44846562eaa65177b9d60f1343e2a3f.data.unityweb",
-        frameworkUrl: buildUrl + "/eca5d6dae2b714f7d5a190d043254e0e.js.unityweb",
-        codeUrl: buildUrl + "/76acc552b72300940dbc4477b1bc883c.wasm.unityweb",
+        dataUrl: buildUrl + "/21e2516f594c4c63546c9ebbbd5b09ab.data.unityweb",
+        frameworkUrl: buildUrl + "/3c8ca984bb52ed7cd81051fc39b2f342.js.unityweb",
+        codeUrl: buildUrl + "/aebb056daa2259eb5f198e6492af1b68.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "KorubovGames",
         productName: "ZombieTrain",
-        productVersion: "1.133",
+        productVersion: "1.134",
         showBanner: unityShowBanner,
       };
 
+      // By default, Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
+
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
+        // config.devicePixelRatio = 1;
+
+
       } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+
         canvas.style.width = "1080px";
         canvas.style.height = "1920px";
       }
@@ -83,36 +105,18 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-        }).then((instance) => {
-          unityInstance = instance; // Assign instance to global variable
-          loadingBar.style.display = "none";
-          fullscreenButton.onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-        }).catch((message) => {
-          alert(message);
-        });
-      };
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+                fullscreenButton.onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
+              }).catch((message) => {
+                alert(message);
+              });
+            };
 
       document.body.appendChild(script);
 
-    </script>
-	
-    <script type="text/javascript">
-      window.addEventListener('beforeunload', function (event) {
-        if (unityInstance !== null) {
-          unityInstance.SendMessage('AchievementElement', 'OnApplicationQuit');
-          unityInstance.SendMessage('GameData_Progression', 'OnApplicationQuit');
-          unityInstance.SendMessage('IncomeManager', 'OnApplicationQuit');
-          unityInstance.SendMessage('PrxEvent_Counter', 'OnApplicationQuit');
-          unityInstance.SendMessage('TrainSpeed', 'OnApplicationQuit');
-          unityInstance.SendMessage('VehicleHealthManager', 'OnApplicationQuit');
-          unityInstance.SendMessage('WelcomeBackManager', 'OnApplicationQuit');
-          unityInstance.SendMessage('PrxFloats_SaveLoad', 'OnApplicationQuit');
-          unityInstance.SendMessage('SlotManager', 'OnApplicationQuit');
-          unityInstance.SendMessage('Slots_Item_LoadSave', 'OnApplicationQuit');
-        }
-      });
     </script>
   </body>
 </html>
