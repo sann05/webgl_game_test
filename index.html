@@ -118,5 +118,12 @@
       document.body.appendChild(script);
 
     </script>
+	
+	<script type="text/javascript">
+    window.addEventListener('beforeunload', function (event) {
+        // You can call a Unity function here
+        unityInstance.SendMessage('GameManager', 'OnApplicationQuit');
+    });
+</script>
   </body>
 </html>
