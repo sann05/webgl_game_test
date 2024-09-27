@@ -23,8 +23,9 @@
       canvas {
         width: 100% !important;
         height: 100% !important;
-        max-width: 1080px;
-        margin: 0 auto; /* Center the canvas horizontally */
+        max-width: 1080px; /* Limits the width to 1080px */
+        margin: 0 auto;
+        display: block; /* Center canvas */
       }
     </style>
   </head>
@@ -71,33 +72,35 @@
         updateBannerVisibility();
       }
 
-      var buildUrl = "Build"; // Correct this path based on your actual folder structure
-      var loaderUrl = buildUrl + "/WEBGL_Optim.loader.js";
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/WEBGL_Cadidate.loader.js";
       var config = {
-        dataUrl: buildUrl + "/correct-path-here.data.unityweb", // Ensure this path is accurate
-        frameworkUrl: buildUrl + "/correct-path-here.js.unityweb", // Correct path here
-        codeUrl: buildUrl + "/correct-path-here.wasm.unityweb", // Correct path here
+        dataUrl: buildUrl + "/ea883706e438b731fac0572124e54a88.data.unityweb",
+        frameworkUrl: buildUrl + "/81633601dd92faa2bfe9b6769d123e8a.js.unityweb",
+        codeUrl: buildUrl + "/8ff4e17d73760217bf36aabdcf02cb73.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "KorubovGames",
         productName: "ZombieTrain",
-        productVersion: "1.132",
+        productVersion: "1.143",
         showBanner: unityShowBanner,
       };
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
-        meta.content = 'width=640, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
 
+        // Ensure canvas uses correct aspect ratio for 16:9 portrait mode
         const aspectRatio = 9 / 16;
-        var width = 640;
+        var width = window.innerWidth;
         var height = width * aspectRatio;
         canvas.style.width = width + "px";
         canvas.style.height = height + "px";
       } else {
+        // Desktop style: Render the game canvas in full HD portrait mode:
         canvas.style.width = "100vw";
         canvas.style.height = "100vh";
         canvas.style.maxWidth = "1080px";
