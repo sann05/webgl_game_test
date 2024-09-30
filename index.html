@@ -16,15 +16,16 @@
 
       #unity-container {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
       }
 
-      canvas {
+      #unity-canvas {
         display: block;
       }
     </style>
@@ -45,6 +46,7 @@
         <div id="unity-build-title">ZombieTrain</div>
       </div>
     </div>
+
     <script>
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
@@ -55,9 +57,9 @@
 
       // Function to maintain 9:16 aspect ratio
       function resizeCanvas() {
+        var aspectRatio = 9 / 16;
         var windowWidth = window.innerWidth;
         var windowHeight = window.innerHeight;
-        var aspectRatio = 9 / 16;
         var canvasWidth, canvasHeight;
 
         if (windowWidth / windowHeight > aspectRatio) {
@@ -70,13 +72,30 @@
           canvasHeight = canvasWidth / aspectRatio;
         }
 
-        canvas.style.width = canvasWidth + "px";
-        canvas.style.height = canvasHeight + "px";
+        // Apply the calculated size to the canvas
+        canvas.style.width = canvasWidth + 'px';
+        canvas.style.height = canvasHeight + 'px';
+      }
+
+      // Telegram in-app detection logic
+      function isInTelegramApp() {
+        return navigator.userAgent.includes("Telegram");
+      }
+
+      // Adjust fullscreen behavior for Telegram webview
+      function setUpForTelegramWebview() {
+        if (isInTelegramApp()) {
+          fullscreenButton.style.display = 'none'; // Hide fullscreen button
+          window.addEventListener('resize', resizeCanvas); // Always resize on window change
+          resizeCanvas(); // Initial resize
+        }
       }
 
       window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
+      resizeCanvas(); // Ensure correct size on load
 
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -108,6 +127,7 @@
         showBanner: unityShowBanner,
       };
 
+      // For mobile devices
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
@@ -116,6 +136,8 @@
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
       }
+
+      setUpForTelegramWebview(); // Setup for Telegram in-app behavior
 
       loadingBar.style.display = "block";
 
