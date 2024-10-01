@@ -21,12 +21,25 @@
         left: 0;
       }
       canvas {
-        width: 100%;
-        height: 100%;
+        width: 100% !important;
+        height: 100% !important;
         max-width: 1080px;
-        max-height: 100%;
-        display: block;
-        margin: 0 auto;
+        margin: 0 auto; /* Center the canvas horizontally */
+      }
+      /* Ensure portrait orientation */
+      @media screen and (orientation: landscape) {
+        body::before {
+          content: "Please rotate your device to portrait mode";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 24px;
+          color: #333;
+        }
+        canvas {
+          display: none;
+        }
       }
     </style>
   </head>
@@ -47,6 +60,7 @@
       </div>
     </div>
     <script>
+
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
@@ -64,7 +78,7 @@
         if (type == 'error') div.style = 'background: red; padding: 10px;';
         else {
           if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
+          setTimeout(function () {
             warningBanner.removeChild(div);
             updateBannerVisibility();
           }, 5000);
