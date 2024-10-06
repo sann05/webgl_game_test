@@ -45,14 +45,14 @@
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
-      <div id="unity-warning"></div>
+      <div id="unity-warning"> </div>
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
@@ -78,7 +78,7 @@
         if (type == 'error') div.style = 'background: red; padding: 10px;';
         else {
           if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function () {
+          setTimeout(function() {
             warningBanner.removeChild(div);
             updateBannerVisibility();
           }, 5000);
@@ -87,22 +87,22 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WEBGL_GPU_Instancing.loader.js";
+      var loaderUrl = buildUrl + "/WEBGL_indexTest.loader.js";
       var config = {
-        dataUrl: buildUrl + "/9088c7ba9e6c665194080a0713546705.data.unityweb",
-        frameworkUrl: buildUrl + "/309c88c68ed1c85d670ac7dd89e122e7.js.unityweb",
-        codeUrl: buildUrl + "/2b197df97aea090a98bcacfdf0e3eac6.wasm.unityweb",
+        dataUrl: buildUrl + "/2d4688c852cf0ef729514916563e073a.data.unityweb",
+        frameworkUrl: buildUrl + "/2637cae8244f4db6cc155b67e6203bda.js.unityweb",
+        codeUrl: buildUrl + "/8215424f8d47fb57d889299a64e21415.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "KorubovGames",
         productName: "ZombieTrain",
-        productVersion: "1.145",
+        productVersion: "1.146",
         showBanner: unityShowBanner,
       };
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
@@ -116,10 +116,11 @@
         var devicePixelRatio = window.devicePixelRatio || 1;
         canvas.width = width * devicePixelRatio;
         canvas.height = height * devicePixelRatio;
+
+
       } else {
-        canvas.style.width = "100vw";
-        canvas.style.height = "100vh";
-        canvas.style.maxWidth = "1080px";
+        canvas.style.width = "1080px";
+        canvas.style.height = "1920px";
       }
 
       loadingBar.style.display = "block";
@@ -129,17 +130,18 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-          fullscreenButton.onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-        }).catch((message) => {
-          alert(message);
-        });
-      };
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+                fullscreenButton.onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
+              }).catch((message) => {
+                alert(message);
+              });
+            };
 
       document.body.appendChild(script);
+
     </script>
   </body>
 </html>
