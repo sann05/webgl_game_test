@@ -87,15 +87,15 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WEBGL_KeyBoard.loader.js";
+      var loaderUrl = buildUrl + "/WEBGL_indexTest.loader.js";
       var config = {
-        dataUrl: buildUrl + "/1f403d437689a23f422cbc2731c361c9.data.unityweb",
+        dataUrl: buildUrl + "/f7b4ec7748774e551336d962625456cb.data.unityweb",
         frameworkUrl: buildUrl + "/309c88c68ed1c85d670ac7dd89e122e7.js.unityweb",
         codeUrl: buildUrl + "/2b197df97aea090a98bcacfdf0e3eac6.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "KorubovGames",
         productName: "ZombieTrain",
-        productVersion: "1.150",
+        productVersion: "1.151",
         showBanner: unityShowBanner,
       };
 
@@ -114,7 +114,7 @@
         canvas.style.width = width + "px";
         canvas.style.height = height + "px";
 
-        var devicePixelRatio = window.devicePixelRatio || 1;
+        var devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2); // Limit the pixel ratio to reduce resolution on high-density screens
         canvas.width = width * devicePixelRatio;
         canvas.height = height * devicePixelRatio;
 
