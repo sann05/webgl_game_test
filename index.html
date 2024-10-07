@@ -87,22 +87,22 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WEBGL_indexTest.loader.js";
+      var loaderUrl = buildUrl + "/WEBGL_KeyBoard.loader.js";
       var config = {
-        dataUrl: buildUrl + "/667d57684e652c3a5a4fa9e82d880ffe.data.unityweb",
-        frameworkUrl: buildUrl + "/2637cae8244f4db6cc155b67e6203bda.js.unityweb",
-        codeUrl: buildUrl + "/8215424f8d47fb57d889299a64e21415.wasm.unityweb",
+        dataUrl: buildUrl + "/1f403d437689a23f422cbc2731c361c9.data.unityweb",
+        frameworkUrl: buildUrl + "/309c88c68ed1c85d670ac7dd89e122e7.js.unityweb",
+        codeUrl: buildUrl + "/2b197df97aea090a98bcacfdf0e3eac6.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "KorubovGames",
         productName: "ZombieTrain",
-        productVersion: "1.149",
+        productVersion: "1.150",
         showBanner: unityShowBanner,
       };
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
@@ -114,10 +114,10 @@
         canvas.style.width = width + "px";
         canvas.style.height = height + "px";
 
-        // Lower the resolution by reducing pixel ratio
-        var devicePixelRatio = Math.min(window.devicePixelRatio, 1.5);  // Reduce pixel density to lower resolution
+        var devicePixelRatio = window.devicePixelRatio || 1;
         canvas.width = width * devicePixelRatio;
         canvas.height = height * devicePixelRatio;
+
 
       } else {
         canvas.style.width = "1080px";
