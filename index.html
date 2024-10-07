@@ -102,7 +102,7 @@
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
@@ -114,10 +114,10 @@
         canvas.style.width = width + "px";
         canvas.style.height = height + "px";
 
-        var devicePixelRatio = window.devicePixelRatio || 1;
+        // Lower the resolution by reducing pixel ratio
+        var devicePixelRatio = Math.min(window.devicePixelRatio, 1.5);  // Reduce pixel density to lower resolution
         canvas.width = width * devicePixelRatio;
         canvas.height = height * devicePixelRatio;
-
 
       } else {
         canvas.style.width = "1080px";
