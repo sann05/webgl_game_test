@@ -6,6 +6,7 @@
     <title>Unity WebGL Player | ZombieTrain</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Added SDK -->
     <style>
       html, body {
         margin: 0;
@@ -60,7 +61,6 @@
       </div>
     </div>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
@@ -136,7 +136,7 @@
             unityInstance.SetFullscreen(1);
           };
 
-          // Test Telegram integration and print user info
+          // Test Telegram integration
           testTelegramIntegration();
 
         }).catch((message) => {
@@ -165,29 +165,9 @@
 
         } else {
           console.log('Telegram WebApp API not available.');
+          alert("Telegram WebApp API not available. Closing the game.");
+          setTimeout(() => window.close(), 2000);
         }
-		
-		// Check if the Telegram WebApp object is available
-    if (window.Telegram && window.Telegram.WebApp) {
-        // Telegram WebApp is available, proceed with your game logic
-        const telegramApp = window.Telegram.WebApp;
-        
-        // Test connection - change theme color or update the UI
-        telegramApp.setBackgroundColor("#1abc9c");
-        telegramApp.MainButton.setText("Connected to Telegram!");
-        telegramApp.MainButton.show();
-
-        console.log("Telegram WebApp API is connected successfully!");
-
-    } else {
-        // No Telegram WebApp connectivity
-        alert("Telegram WebApp API not available. Closing the game.");
-
-        // Close the game window
-        setTimeout(() => {
-            window.close(); // Attempt to close the window
-        }, 2000);
-    }
       }
 
     </script>
