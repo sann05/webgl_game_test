@@ -165,6 +165,26 @@
         } else {
           console.log('Telegram WebApp API not available.');
         }
+		
+		if (window.Telegram && window.Telegram.WebApp) {
+        // Telegram WebApp is available, confirm connection
+        const telegramApp = window.Telegram.WebApp;
+
+        // Test communication with Telegram - change theme color
+        telegramApp.setBackgroundColor("#1abc9c");
+
+        // Set main button text and display it
+        telegramApp.MainButton.setText("Connected to Telegram!");
+        telegramApp.MainButton.show();
+
+        // Print confirmation to the console (visible in desktop/while debugging)
+        console.log("Telegram WebApp API is connected successfully!");
+
+        // Optionally send an alert within the app for quick feedback
+        telegramApp.showAlert("Telegram connection established successfully!");
+    } else {
+        console.log("Telegram WebApp API not available.");
+    }
       }
 
     </script>
