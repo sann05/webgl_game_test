@@ -6,7 +6,7 @@
     <title>Unity WebGL Player | ZombieTrain</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Added SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Telegram SDK -->
     <style>
       html, body {
         margin: 0;
@@ -25,9 +25,8 @@
         width: 100% !important;
         height: 100% !important;
         max-width: 1080px;
-        margin: 0 auto; /* Center the canvas horizontally */
+        margin: 0 auto;
       }
-      /* Ensure portrait orientation */
       @media screen and (orientation: landscape) {
         body::before {
           content: "Please rotate your device to portrait mode";
@@ -61,118 +60,9 @@
       </div>
     </div>
 
-    <script>
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-      var warningBanner = document.querySelector("#unity-warning");
-
-      function unityShowBanner(msg, type) {
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
-        }
-        var div = document.createElement('div');
-        div.innerHTML = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: red; padding: 10px;';
-        else {
-          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
-        }
-        updateBannerVisibility();
-      }
-
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WEBGL_BigZ.loader.js";
-      var config = {
-        dataUrl: buildUrl + "/67f9ef4077c6069d9305f3cd4e95a54d.data.unityweb",
-        frameworkUrl: buildUrl + "/942e56cbc25266f272b3a1345c47437b.js.unityweb",
-        codeUrl: buildUrl + "/efd2b3d62004c6d29c974fa5c0a26663.wasm.unityweb",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "KorubovGames",
-        productName: "ZombieTrain",
-        productVersion: "1.153",
-        showBanner: unityShowBanner,
-      };
-
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-        container.className = "unity-mobile";
-        canvas.className = "unity-mobile";
-
-        const aspectRatio = 9 / 16;
-        var width = Math.min(window.innerWidth, 1080); // Limit width to 1080px max
-        var height = width * aspectRatio;
-        canvas.style.width = width + "px";
-        canvas.style.height = height + "px";
-
-        var devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2); // Limit the pixel ratio to reduce resolution on high-density screens
-        canvas.width = width * devicePixelRatio;
-        canvas.height = height * devicePixelRatio;
-
-      } else {
-        canvas.style.width = "1080px";
-        canvas.style.height = "1920px";
-      }
-
-      loadingBar.style.display = "block";
-
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-          fullscreenButton.onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-
-          // Test Telegram integration
-          testTelegramIntegration();
-
-        }).catch((message) => {
-          alert(message);
-        });
-      };
-
-      document.body.appendChild(script);
-
-      // Telegram integration code
-      function testTelegramIntegration() {
-        if (window.Telegram && window.Telegram.WebApp) {
-          const webApp = window.Telegram.WebApp;
-          console.log('Telegram WebApp data:', webApp.initData);
-
-          // Print some user data
-          const user = webApp.initDataUnsafe.user;
-          if (user) {
-            console.log(`User ID: ${user.id}`);
-            console.log(`First Name: ${user.first_name}`);
-            console.log(`Last Name: ${user.last_name}`);
-            console.log(`Username: ${user.username}`);
-			alert(`Telegram WebApp API connected: ${user.username}`);
-          } 
-		  else 
-		  {
-            console.log('No user information available.');
-          }
-
-        } else {
-          console.log('Telegram WebApp API not available.');
-          alert("Telegram WebApp API not available. Closing the game.");
-          setTimeout(() => window.close(), 2000);
-        }
-      }
-
-    </script>
+    <!-- Load Unity WebGL-related script -->
+    <script src="unity-loading.js"></script>
+    <!-- Load Telegram-related script -->
+    <script src="telegram-integration.js"></script>
   </body>
 </html>
