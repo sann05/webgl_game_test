@@ -1,34 +1,47 @@
-function initTelegramIntegration() 
-{
-    if (window.Telegram && window.Telegram.WebApp) 
-    {
+// Function to initialize the Telegram WebApp
+function initializeTelegram() {
+    if (window.Telegram && window.Telegram.WebApp) {
         const webApp = window.Telegram.WebApp;
-        console.log('Telegram WebApp data:', webApp.initData);
+        webApp.expand(); // Expands the mini-app to the full available window
 
-        const user = webApp.initDataUnsafe.user;
-        if (user) 
-        {
-            console.log(`User ID: ${user.id}`);
-            console.log(`First Name: ${user.first_name}`);
-            console.log(`Last Name: ${user.last_name}`);
-            console.log(`Username: ${user.username}`);
-        } 
-        else 
-        {
-            console.log('No user information available.');
-        }
-
-        webApp.setBackgroundColor("#1abc9c");
-        webApp.MainButton.setText("Connected to Telegram!");
-        webApp.MainButton.show();
-    } 
-    else 
-    {
+        console.log('Telegram WebApp initialized.');
+    } else {
         console.log('Telegram WebApp API not available.');
-        alert("Telegram WebApp API not available. Closing the game.");
-        setTimeout(() => window.close(), 2000);
+    }
+}
+// Function to retrieve user data from Telegram
+function requestTelegramUserData() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
+        if (user) {
+            const userData = {
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                username: user.username
+            };
+            // Send the user data to Unity
+            const unityInstance = window.UnityInstance;
+            if (unityInstance) {
+                unityInstance.SendMessage('TelegramManager', 'ReceiveUserData', JSON.stringify(userData));
+            }
+        } else {
+            console.log("No user data found.");
+        }
+    } else {
+        console.log("Telegram WebApp API not available.");
     }
 }
 
-// Call the Telegram initialization
-initTelegramIntegration();
+// Function to check Telegram connectivity and initialize the WebApp
+function checkTelegramConnection() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        console.log("Telegram WebApp is connected.");
+    } else {
+        alert("Telegram WebApp API not available");
+    }
+}
+
+// Run the Telegram initialization and check for connectivity
+initializeTelegram();
+checkTelegramConnection();
