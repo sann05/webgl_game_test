@@ -1,3 +1,4 @@
+var unityInstance = null; // Global declaration for the Unity instance
 var container = document.querySelector("#unity-container");
 var canvas = document.querySelector("#unity-canvas");
 var loadingBar = document.querySelector("#unity-loading-bar");
@@ -5,6 +6,7 @@ var progressBarFull = document.querySelector("#unity-progress-bar-full");
 var fullscreenButton = document.querySelector("#unity-fullscreen-button");
 var warningBanner = document.querySelector("#unity-warning");
 
+// Show banners for errors or warnings
 function unityShowBanner(msg, type) {
     function updateBannerVisibility() {
         warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -12,9 +14,9 @@ function unityShowBanner(msg, type) {
     var div = document.createElement('div');
     div.innerHTML = msg;
     warningBanner.appendChild(div);
-    if (type == 'error') div.style = 'background: red; padding: 10px;';
+    if (type === 'error') div.style = 'background: red; padding: 10px;';
     else {
-        if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+        if (type === 'warning') div.style = 'background: yellow; padding: 10px;';
         setTimeout(function () {
             warningBanner.removeChild(div);
             updateBannerVisibility();
@@ -23,19 +25,21 @@ function unityShowBanner(msg, type) {
     updateBannerVisibility();
 }
 
+// Unity build configuration
 var buildUrl = "Build";
 var loaderUrl = buildUrl + "/WEBGL_TelegramUser.loader.js";
 var config = {
-    dataUrl: buildUrl + "/a4063f65cfc8f4d9563172cac1620a9e.data.unityweb",
-    frameworkUrl: buildUrl + "/9d333e9f68a626592a1e4f790529da95.js.unityweb",
+    dataUrl: buildUrl + "/d6efdcf53f18cd2b094111aaa67d51f1.data.unityweb",
+    frameworkUrl: buildUrl + "/46b25cbc444df36a47c113442d6d1a61.js.unityweb",
     codeUrl: buildUrl + "/9295fec93e9b974a964d8b38f2d2ea93.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "KorubovGames",
     productName: "ZombieTrain",
-    productVersion: "1.157",
+    productVersion: "1.158",
     showBanner: unityShowBanner,
 };
 
+// Mobile device configuration
 if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     var meta = document.createElement('meta');
     meta.name = 'viewport';
@@ -50,7 +54,7 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     canvas.style.width = width + "px";
     canvas.style.height = height + "px";
 
-    var devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    var devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2); // Limit the pixel ratio to reduce resolution on high-density screens
     canvas.width = width * devicePixelRatio;
     canvas.height = height * devicePixelRatio;
 
@@ -61,19 +65,74 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 
 loadingBar.style.display = "block";
 
+// Load the Unity WebGL build
 var script = document.createElement("script");
 script.src = loaderUrl;
 script.onload = () => {
     createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + "%";
-    }).then((unityInstance) => {
+    }).then((instance) => {
+        unityInstance = instance; // Set the global unityInstance variable
         loadingBar.style.display = "none";
         fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
         };
     }).catch((message) => {
-        alert(message);
+        alert(`Failed to load Unity instance: ${message}`);
     });
 };
-
 document.body.appendChild(script);
+
+// Telegram WebApp integration and initialization
+function initializeTelegram() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        const webApp = window.Telegram.WebApp;
+        webApp.expand(); // Expands the mini-app to full screen
+
+        console.log("Telegram WebApp initialized.");
+    } else {
+        console.log("Telegram WebApp API not available.");
+    }
+}
+
+// Function to retrieve user data from Telegram
+function requestTelegramUserData() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
+        if (user) {
+            const userData = {
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                username: user.username
+            };
+            // Send the user data to Unity
+            if (unityInstance) {
+                unityInstance.SendMessage('TelegramManager', 'ReceiveUserData', JSON.stringify(userData));
+            } else {
+                console.log("Unity instance not yet available.");
+            }
+        } else {
+            console.log("No user data found.");
+        }
+    } else {
+        console.log("Telegram WebApp API not available.");
+    }
+}
+
+// Check Telegram WebApp connection and handle updates
+function checkTelegramConnection() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        console.log("Telegram WebApp is connected.");
+        window.Telegram.WebApp.onEvent('update', () => {
+            console.log('Telegram data updated');
+            requestTelegramUserData(); // Fetch user data when there's an update event
+        });
+    } else {
+        alert("Telegram WebApp API not available.");
+    }
+}
+
+// Initialize Telegram and check connectivity
+initializeTelegram();
+checkTelegramConnection();
