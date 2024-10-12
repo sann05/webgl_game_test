@@ -9,6 +9,7 @@ function initializeTelegram() {
         console.log('Telegram WebApp API not available.');
     }
 }
+
 // Function to retrieve user data from Telegram
 function requestTelegramUserData() {
     if (window.Telegram && window.Telegram.WebApp) {
@@ -20,10 +21,12 @@ function requestTelegramUserData() {
                 lastName: user.last_name,
                 username: user.username
             };
-            // Send the user data to Unity
-            const unityInstance = window.UnityInstance;
-            if (unityInstance) {
-                unityInstance.SendMessage('TelegramManager', 'ReceiveUserData', JSON.stringify(userData));
+            // Make sure UnityInstance is ready before sending data
+            if (typeof window.unityInstance !== 'undefined') {
+                window.unityInstance.SendMessage('TelegramManager', 'ReceiveUserData', JSON.stringify(userData));
+            } else {
+                console.log("Unity instance not ready yet. Retrying in 1 second...");
+                setTimeout(() => requestTelegramUserData(), 1000); // Retry after 1 second if Unity is not ready
             }
         } else {
             console.log("No user data found.");
@@ -40,14 +43,15 @@ function checkTelegramConnection() {
     } else {
         alert("Telegram WebApp API not available");
     }
-	
-	// Log the entire initDataUnsafe object to debug the data discrepancies
-	console.log('Telegram initDataUnsafe:', window.Telegram.WebApp.initDataUnsafe);
-	window.Telegram.WebApp.onEvent('update', () => {
-	
-	console.log('Telegram data updated');
-	requestTelegramUserData(); // Re-fetch user data on update event
-	});
+
+    // Log the entire initDataUnsafe object to debug the data discrepancies
+    console.log('Telegram initDataUnsafe:', window.Telegram.WebApp.initDataUnsafe);
+
+    // Re-fetch user data when there is an update event from Telegram
+    window.Telegram.WebApp.onEvent('update', () => {
+        console.log('Telegram data updated');
+        requestTelegramUserData(); // Re-fetch user data on update event
+    });
 }
 
 // Run the Telegram initialization and check for connectivity
