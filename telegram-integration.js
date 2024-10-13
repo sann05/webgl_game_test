@@ -25,23 +25,23 @@ function requestTelegramUserData() {
             if (typeof window.unityInstance !== 'undefined') {
                 window.unityInstance.SendMessage('TelegramManager', 'ReceiveUserData', JSON.stringify(userData));
             } else {
-                console.log("Unity instance not ready yet. Retrying in 1 second...");
+                console.log("Unity instance not ready yet. Retrying in 1 second... zzz");
                 setTimeout(() => requestTelegramUserData(), 1000); // Retry after 1 second if Unity is not ready
             }
         } else {
-            console.log("No user data found.");
+            console.log("No user data found. zzz");
         }
     } else {
-        console.log("Telegram WebApp API not available.");
+        console.log("Telegram WebApp API not available. zzz");
     }
 }
 
 // Function to check Telegram connectivity and initialize the WebApp
 function checkTelegramConnection() {
     if (window.Telegram && window.Telegram.WebApp) {
-        console.log("Telegram WebApp is connected. 2");
+        console.log("Telegram WebApp is connected. zzz");
     } else {
-        alert("Telegram WebApp API not available");
+        alert("Telegram WebApp API not available zzz");
     }
 
     // Log the entire initDataUnsafe object to debug the data discrepancies
