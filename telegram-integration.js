@@ -9,18 +9,15 @@ function initializeTelegram() {
     }
 }
 
-// Function to check Telegram connectivity and initialize the WebApp
+// Check Telegram connectivity and initialize the WebApp
 function checkTelegramConnection() {
     if (window.Telegram && window.Telegram.WebApp) {
         console.log("Telegram WebApp is connected.");
     } else {
-        alert("Telegram WebApp API not available.");
+        console.log("Telegram WebApp API not available.");
     }
-
-    // Log the entire initDataUnsafe object to debug the data discrepancies
-    console.log('Telegram initDataUnsafe:', window.Telegram.WebApp.initDataUnsafe);
 }
 
-// Run the Telegram initialization and check for connectivity
+// Initialize Telegram when the page loads
 initializeTelegram();
 checkTelegramConnection();
