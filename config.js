@@ -1,1 +1,0 @@
-window.APP_METRICA_KEY = "f92c19b0-ba89-496b-9d76-1ab5276df057";
