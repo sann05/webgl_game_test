@@ -7,9 +7,8 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Telegram SDK -->
-	<script src="https://cdn.devtodev.com/sdk/web/v2/devtodevsdk.js"></script>
-	<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-	
+    <script src="https://cdn.devtodev.com/sdk/web/v2/devtodevsdk.js"></script> <!-- DevToDev SDK -->
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script> <!-- TonConnect UI -->
     <style>
       html, body {
         margin: 0;
@@ -62,43 +61,52 @@
         <div id="unity-build-title">ZombieTrain_Dev</div>
       </div>
     </div>
-	
-    <script>
-		const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-			manifestUrl: 'https://webgl-game-test-nine.vercel.app/tonconnect-manifest.json'
-		});
-        console.log('TonConnect initialized', tonConnectUI);
-    </script>
-	
-	<script>
-		async function connectToWallet() {
-			const connectedWallet = await tonConnectUI.connectWallet();
-			// Do something with connectedWallet if needed
-			console.log(connectedWallet);
-		}
 
-		// Call the function
-		connectToWallet().catch(error => {
-			console.error("Error connecting to wallet:", error);
-		});
-		
-		connectToWallet();
-		
-		const transaction = {
-		messages: [
-			{
-				address: "EQABa48hjKzg09hN_HjxOic7r8T1PleIy1dRd8NvZ3922MP0", // destination address
-				amount: "1" //Toncoin in nanotons
-			}
-		]
-		const result = await tonConnectUI.sendTransaction(transaction);
-		console.log(result);
-	</script>
+    <script>
+      // Initialize TonConnect UI with the manifest URL
+      const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+        manifestUrl: 'https://webgl-game-test-nine.vercel.app/tonconnect-manifest.json'
+      });
+      console.log('TonConnect initialized', tonConnectUI);
+
+      // Function to connect to the wallet
+      async function connectToWallet() {
+        try {
+          const connectedWallet = await tonConnectUI.connectWallet();
+          console.log('Wallet Connected:', connectedWallet);
+        } catch (error) {
+          console.error('Error connecting to wallet:', error);
+        }
+      }
+
+      // Call the connectToWallet function
+      connectToWallet();
+
+      // Example transaction setup
+      async function sendTransaction() {
+        try {
+          const transaction = {
+            messages: [
+              {
+                address: "EQABa48hjKzg09hN_HjxOic7r8T1PleIy1dRd8NvZ3922MP0", // Destination address
+                amount: "1000000000" // Toncoin in nanotons (1 TON)
+              }
+            ]
+          };
+          const result = await tonConnectUI.sendTransaction(transaction);
+          console.log('Transaction Result:', result);
+        } catch (error) {
+          console.error('Error sending transaction:', error);
+        }
+      }
+
+      // Example usage of sendTransaction
+      sendTransaction();
+    </script>
 
     <!-- Load Unity WebGL-related script -->
     <script src="unity-loader.js"></script>
     <!-- Load Telegram-related script -->
     <script src="telegram-integration.js"></script>
-	
   </body>
 </html>
