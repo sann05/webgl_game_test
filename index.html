@@ -63,30 +63,44 @@
     </div>
 
     <script>
-      // Initialize TonConnect UI with the manifest URL
-      const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: 'https://webgl-game-test-nine.vercel.app/tonconnect-manifest.json'
-      });
-      console.log('TonConnect initialized', tonConnectUI);
+	
+		// Initialize TonConnect UI with the manifest URL
+		const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+		manifestUrl: 'https://webgl-game-test-nine.vercel.app/tonconnect-manifest.json'
+		});
+		console.log('TonConnect initialized:', tonConnectUI);
 
-      // Function to connect to the wallet
-      async function connectToWallet() {
-        try {
-          const connectedWallet = await tonConnectUI.connectWallet();
-          console.log('Wallet Connected:', connectedWallet);
-        } catch (error) {
-          console.error('Error connecting to wallet:', error);
-        }
-      }
 
-      // Call the connectToWallet function
-      connectToWallet();
-
-      // Example transaction setup
-      async function sendTransaction() 
-	  {
+		// Function to connect to the wallet
+		async function connectToWallet() 
+		{
 			try 
 			{
+			  const connectedWallet = await tonConnectUI.connectWallet();
+			  console.log('Wallet Connected:', connectedWallet);
+			  return connectedWallet; // Ensure the wallet info is returned after a successful connection
+			} 
+			catch (error) 
+			{
+			  console.error('Error connecting to wallet:', error);
+			  return null;
+			}
+		}
+
+
+		// Function to send a transaction
+		async function sendTransaction() 
+		{
+			try 
+			{
+			  const walletInfo = tonConnectUI.wallet;
+			  if (!walletInfo) 
+			  {
+				console.error('Wallet not connected. Please connect a wallet first.');
+				alert('Please connect your wallet before sending a transaction.');
+				return;
+			  }
+
 			  const transaction = {
 				messages: [
 				  {
@@ -95,7 +109,7 @@
 				  }
 				]
 			  };
-			  
+
 			  const result = await tonConnectUI.sendTransaction(transaction);
 			  console.log('Transaction Result:', result);
 			} 
@@ -105,23 +119,40 @@
 			}
 		}
 		
+
+		// Function to disconnect the wallet
 		async function disconnectWallet() 
 		{
 			try 
 			{
-			  const result = await tonConnectUI.disconnect();
-			  console.log('Should disconnect:', result);
+			  await tonConnectUI.disconnect();
+			  console.log('Wallet disconnected.');
 			} 
 			catch (error) 
 			{
-			  console.error('Error sending disconnect:', error);
+			  console.error('Error disconnecting wallet:', error);
 			}
-      }
+		}
 
-      // Example usage of sendTransaction
-      sendTransaction();
-	  //disconnectWallet();
-    </script>
+
+		// Example usage
+		async function main() 
+		{
+			const connectedWallet = await connectToWallet();
+			if (connectedWallet) 
+			{
+			  // Wallet connected, proceed to send a transaction
+			  await sendTransaction();
+			} 
+			else 
+			{
+			  console.error('Wallet connection failed.');
+			}
+		}
+
+		// Call the main function
+		main();
+	</script>
 
     <!-- Load Unity WebGL-related script -->
     <script src="unity-loader.js"></script>
