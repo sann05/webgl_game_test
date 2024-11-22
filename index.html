@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="TemplateData/style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Telegram SDK -->
 	<script src="https://cdn.devtodev.com/sdk/web/v2/devtodevsdk.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@2/tonconnect-sdk.min.js"></script>
+	<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 	
     <style>
       html, body {
@@ -64,9 +64,10 @@
     </div>
 	
     <script>
-        const tonConnect = new TonConnect({
-            manifestUrl: 'https://webgl-game-test-nine.vercel.app/tonconnect-manifest.json',
-        });
+		const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+			manifestUrl: 'https://webgl-game-test-nine.vercel.app/tonconnect-manifest.json',
+			buttonRootId: 'ton-connect'
+		});
         console.log('TonConnect initialized', tonConnect);
     </script>
 
