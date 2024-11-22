@@ -83,8 +83,10 @@
       connectToWallet();
 
       // Example transaction setup
-      async function sendTransaction() {
-        try {
+      async function sendTransaction() 
+	  {
+        try 
+		{
           const transaction = {
             messages: [
               {
@@ -93,15 +95,31 @@
               }
             ]
           };
+		  
           const result = await tonConnectUI.sendTransaction(transaction);
           console.log('Transaction Result:', result);
-        } catch (error) {
+        } 
+		catch (error) 
+		{
           console.error('Error sending transaction:', error);
+        }
+		
+		async function disconnectWallet() 
+		{
+        try 
+		{
+          const result = await tonConnectUI.disconnect();
+          console.log('Should disconnect:', result);
+        } 
+		catch (error) 
+		{
+          console.error('Error sending disconnect:', error);
         }
       }
 
       // Example usage of sendTransaction
       sendTransaction();
+	  disconnectWallet();
     </script>
 
     <!-- Load Unity WebGL-related script -->
