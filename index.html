@@ -85,36 +85,37 @@
       // Example transaction setup
       async function sendTransaction() 
 	  {
-        try 
-		{
-          const transaction = {
-            messages: [
-              {
-                address: "EQABa48hjKzg09hN_HjxOic7r8T1PleIy1dRd8NvZ3922MP0", // Destination address
-                amount: "1000000000" // Toncoin in nanotons (1 TON)
-              }
-            ]
-          };
-		  
-          const result = await tonConnectUI.sendTransaction(transaction);
-          console.log('Transaction Result:', result);
-        } 
-		catch (error) 
-		{
-          console.error('Error sending transaction:', error);
-        }
+			try 
+			{
+			  const transaction = {
+				messages: [
+				  {
+					address: "EQABa48hjKzg09hN_HjxOic7r8T1PleIy1dRd8NvZ3922MP0", // Destination address
+					amount: "1000000000" // Toncoin in nanotons (1 TON)
+				  }
+				]
+			  };
+			  
+			  const result = await tonConnectUI.sendTransaction(transaction);
+			  console.log('Transaction Result:', result);
+			} 
+			catch (error) 
+			{
+			  console.error('Error sending transaction:', error);
+			}
+		}
 		
 		async function disconnectWallet() 
 		{
-        try 
-		{
-          const result = await tonConnectUI.disconnect();
-          console.log('Should disconnect:', result);
-        } 
-		catch (error) 
-		{
-          console.error('Error sending disconnect:', error);
-        }
+			try 
+			{
+			  const result = await tonConnectUI.disconnect();
+			  console.log('Should disconnect:', result);
+			} 
+			catch (error) 
+			{
+			  console.error('Error sending disconnect:', error);
+			}
       }
 
       // Example usage of sendTransaction
