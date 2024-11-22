@@ -83,6 +83,16 @@
 		});
 		
 		connectToWallet();
+		
+		const transaction = {
+		messages: [
+			{
+				address: "EQABa48hjKzg09hN_HjxOic7r8T1PleIy1dRd8NvZ3922MP0", // destination address
+				amount: "1" //Toncoin in nanotons
+			}
+		]
+		const result = await tonConnectUI.sendTransaction(transaction);
+		console.log(result);
 	</script>
 
     <!-- Load Unity WebGL-related script -->
