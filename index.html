@@ -9,6 +9,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Telegram SDK -->
 	<script src="https://cdn.devtodev.com/sdk/web/v2/devtodevsdk.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@2/tonconnect-sdk.min.js"></script>
+	
     <style>
       html, body {
         margin: 0;
@@ -61,6 +62,13 @@
         <div id="unity-build-title">ZombieTrain_Dev</div>
       </div>
     </div>
+	
+    <script>
+        const tonConnect = new TonConnect({
+            manifestUrl: 'https://webgl-game-test-nine.vercel.app/tonconnect-manifest.json',
+        });
+        console.log('TonConnect initialized', tonConnect);
+    </script>
 
     <!-- Load Unity WebGL-related script -->
     <script src="unity-loader.js"></script>
