@@ -25,8 +25,7 @@
       </div>
     </div>
     <script>
-	  
-	  var unityInstance = null; // Global declaration for the Unity instance
+var unityInstance = null; // Global declaration for the Unity instance
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
@@ -62,7 +61,7 @@
       var loaderUrl = buildUrl + "/Test2.loader.js";
       var config = {
         dataUrl: buildUrl + "/86c551e10a7e253e0bd6ddedfbaf230a.data.unityweb",
-        frameworkUrl: buildUrl + "/317dc0df9233482772d49799fa2de69b.js.unityweb",
+        frameworkUrl: buildUrl + "/f0833ffb0693db00f6105dabdc8ce54d.js.unityweb",
         codeUrl: buildUrl + "/05d926d5359266555ea565fa38df7b80.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
@@ -108,8 +107,8 @@
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
               }).then((instance) => {
-				unityInstance = instance;
-				loadingBar.style.display = "none";
+        unityInstance = instance;
+		loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
                   unityInstance.SetFullscreen(1);
                 };
