@@ -122,12 +122,12 @@ var unityInstance = null; // Global declaration for the Unity instance
 		
 		window.Telegram.WebApp.ready();
 		window.Telegram.WebApp.enableClosingConfirmation();
-		console.log("READY window.Telegram.WebApp.onEvent ----------------------------------------------------");
+		console.log("READY1 window.Telegram.WebApp.onEvent ----------------------------------------------------");
 		
-		window.Telegram.WebApp.onEvent('web_app_close', function(eventData) 
+		window.Telegram.WebApp.onEvent('web_app_ready', function(eventData) 
 		{
-	   // Handle the close event here
-	   console.log("Mini app is closing", eventData);
+		   // Handle the close event here
+		   console.log("Mini app is closing", eventData);
 		});
 		
     </script>
