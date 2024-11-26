@@ -11,7 +11,7 @@
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=600 height=600 tabindex="-1"></canvas>
+      <canvas id="unity-canvas" width=100 height=100 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -113,7 +113,7 @@ var unityInstance = null; // Global declaration for the Unity instance
                 fullscreenButton.onclick = () => {
                   //unityInstance.SetFullscreen(1);
 				  
-	   window.parent.postMessage(JSON.stringify({eventType: 'web_app_open_popup', eventData: {title : 'testTitle', message : 'testMessage', buttons : [{type : 'ok', text :'testText', id :'testID'}] }}), '*');
+	   window.Telegram.WebApp.postMessage(JSON.stringify({eventType: 'web_app_open_popup', eventData: {title : 'testTitle', message : 'testMessage', buttons : [{type : 'ok', text :'testText', id :'testID'}] }}), '*');
 	   
                 };
               }).catch((message) => {
