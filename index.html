@@ -113,7 +113,7 @@ var unityInstance = null; // Global declaration for the Unity instance
                 fullscreenButton.onclick = () => {
                   //unityInstance.SetFullscreen(1);
 				  
-	   window.Telegram.WebApp.postMessage(JSON.stringify({eventType: 'web_app_open_popup', eventData: {title : 'testTitle', message : 'testMessage', buttons : [{type : 'ok', text :'testText', id :'testID'}] }}), '*');
+	   window.parent.postMessage(JSON.stringify({eventType: 'web_app_open_popup', eventData: {title : 'testTitle', message : 'testMessage', buttons : [{type : 'ok', text :'testText', id :'testID'}] }}), '*');
 	   
                 };
               }).catch((message) => {
