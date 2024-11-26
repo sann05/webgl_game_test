@@ -6,8 +6,6 @@
     <title>Unity WebGL Player | WebGL_JSLIB_Tests</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script> <!-- TonConnect UI -->
-	 <script src="https://telegram.org/js/telegram-web-app.js"></script>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -26,7 +24,7 @@
       </div>
     </div>
     <script>
-var unityInstance = null; // Global declaration for the Unity instance
+
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
@@ -59,11 +57,11 @@ var unityInstance = null; // Global declaration for the Unity instance
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/Test2.loader.js";
+      var loaderUrl = buildUrl + "/ReferralTest.loader.js";
       var config = {
-        dataUrl: buildUrl + "/368b60aa1828c516f130ec384507891b.data.unityweb",
-        frameworkUrl: buildUrl + "/6f6e26af667edbfb93b2c924bbb8a8c6.js.unityweb",
-        codeUrl: buildUrl + "/73d4117b917ce7a600338012d64a9655.wasm.unityweb",
+        dataUrl: buildUrl + "/41ca0cb01e366ba3bf23cf1ae19851bb.data.unityweb",
+        frameworkUrl: buildUrl + "/64d7612bdd789c7f310ace109dba8944.js.unityweb",
+        codeUrl: buildUrl + "/d32e20d13db4f445345ae1f734564047.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "WebGL_JSLIB_Tests",
@@ -107,9 +105,8 @@ var unityInstance = null; // Global declaration for the Unity instance
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-              }).then((instance) => {
-        unityInstance = instance;
-		loadingBar.style.display = "none";
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
                   unityInstance.SetFullscreen(1);
                 };
@@ -118,18 +115,8 @@ var unityInstance = null; // Global declaration for the Unity instance
               });
             };
 
-		document.body.appendChild(script);
-		
-		window.Telegram.WebApp.ready();
-		window.Telegram.WebApp.enableClosingConfirmation();
-		console.log("READY1 window.Telegram.WebApp.onEvent ----------------------------------------------------");
-		
-		window.Telegram.WebApp.onEvent('web_app_ready', function(eventData) 
-		{
-		   // Handle the close event here
-		   console.log("Mini app is closing", eventData);
-		});
-		
+      document.body.appendChild(script);
+
     </script>
   </body>
 </html>
