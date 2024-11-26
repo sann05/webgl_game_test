@@ -11,7 +11,7 @@
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <canvas id="unity-canvas" width=600 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -111,7 +111,7 @@ var unityInstance = null; // Global declaration for the Unity instance
         unityInstance = instance;
 		loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
-                  unityInstance.SetFullscreen(1);
+                  //unityInstance.SetFullscreen(1);
                 };
               }).catch((message) => {
                 alert(message);
@@ -124,6 +124,7 @@ var unityInstance = null; // Global declaration for the Unity instance
 		//window.Telegram.WebApp.enableClosingConfirmation();
 		//window.Telegram.WebView.postEvent('web_app_setup_closing_behavior', false, {need_confirmation: true});
 	   
+	   window.parent.postMessage(JSON.stringify({eventType: 'web_app_setup_closing_behavior', eventData: {need_confirmation: true}}), '*');
 	   window.parent.postMessage(JSON.stringify({eventType: 'web_app_setup_closing_behavior', eventData: {need_confirmation: true}}), '*');
 	   
 	   console.log("window.Telegram.WebApp.onEvent 5----------------------------------------------------");
