@@ -129,7 +129,7 @@ var unityInstance = null; // Global declaration for the Unity instance
 	   
 	   window.parent.postMessage(JSON.stringify({eventType: 'web_app_setup_closing_behavior', eventData: {need_confirmation: true}}), '*');
 	   
-	   console.log("window.Telegram.WebApp.onEvent 5----------------------------------------------------");
+	   console.log("window.Telegram.WebApp.onEvent 6----------------------------------------------------");
 		
 		window.Telegram.WebApp.onEvent('web_app_setup_closing_behavior', function(eventData) 
 		{
@@ -138,6 +138,10 @@ var unityInstance = null; // Global declaration for the Unity instance
 		});
 		
 		window.Telegram.WebView.receiveEvent('popup_closed', {button_id: 'testID'});
+    window.Telegram.WebApp.onEvent('close', () => {
+    console.log('Мини-приложение закрыто');
+  
+});
 		
 		window.addEventListener('popup_closed', ({ data }) => {
 		  //const { eventType, eventData } = JSON.parse(data);
