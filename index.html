@@ -139,7 +139,7 @@ var unityInstance = null; // Global declaration for the Unity instance
 		
 		window.Telegram.WebView.receiveEvent('popup_closed', {button_id: 'testID'});
 		
-		window.WebApp.addEventListener('popup_closed', ({ data }) => {
+		window.addEventListener('popup_closed', ({ data }) => {
 		  //const { eventType, eventData } = JSON.parse(data);
 		  console.log('FINALLY');
 		});
