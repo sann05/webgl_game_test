@@ -137,7 +137,10 @@ var unityInstance = null; // Global declaration for the Unity instance
 		   console.log("Mini app is closing", eventData);
 		});
 		
-		window.Telegram.WebView.receiveEvent("popup_closed", {});
+		window.addEventListener('popup_closed', ({ data }) => {
+		  //const { eventType, eventData } = JSON.parse(data);
+		  console.log('FINALLY');
+		});
 });
 		
 		
