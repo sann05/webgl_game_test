@@ -112,6 +112,9 @@ var unityInstance = null; // Global declaration for the Unity instance
 		loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
                   //unityInstance.SetFullscreen(1);
+				  
+	   window.parent.postMessage(JSON.stringify({eventType: 'web_app_open_popup', eventData: {title : 'testTitle', message : 'testMessage', buttons : [{type : 'ok', text :'testText', id :'testID'}] }}), '*');
+	   
                 };
               }).catch((message) => {
                 alert(message);
@@ -124,7 +127,6 @@ var unityInstance = null; // Global declaration for the Unity instance
 		//window.Telegram.WebApp.enableClosingConfirmation();
 		//window.Telegram.WebView.postEvent('web_app_setup_closing_behavior', false, {need_confirmation: true});
 	   
-	   window.parent.postMessage(JSON.stringify({eventType: 'web_app_setup_closing_behavior', eventData: {need_confirmation: true}}), '*');
 	   window.parent.postMessage(JSON.stringify({eventType: 'web_app_setup_closing_behavior', eventData: {need_confirmation: true}}), '*');
 	   
 	   console.log("window.Telegram.WebApp.onEvent 5----------------------------------------------------");
