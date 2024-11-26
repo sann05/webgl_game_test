@@ -138,7 +138,7 @@ var unityInstance = null; // Global declaration for the Unity instance
 		});
 		
 		
-		window.addEventListener('popup_closed', ({ data }) => {
+		window.parent.addEventListener('popup_closed', ({ data }) => {
 		  //const { eventType, eventData } = JSON.parse(data);
 		  console.log('FINALLY');
 		});
