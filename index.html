@@ -66,6 +66,10 @@
     <script src="unity-loader.js"></script>
     <!-- Load Telegram-related script -->
     <script src="telegram-integration.js"></script>
-	
+    <script>
+      window.addEventListener('message', ({ data }) => {
+        console.log("TEST!!!: Message received:", JSON.stringify(data));
+      });
+    </script>
   </body>
 </html>
