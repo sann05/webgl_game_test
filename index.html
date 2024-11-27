@@ -70,6 +70,14 @@
       window.addEventListener('message', ({ data }) => {
         console.log("TEST!!!: Message received:", JSON.stringify(data));
       });
+      const data = JSON.stringify({
+        eventType: 'web_app_setup_back_button',
+        eventData: {
+          is_visible: true,
+        },
+      });
+
+      window.parent.postMessage(data, 'https://web.telegram.org');
     </script>
   </body>
 </html>
