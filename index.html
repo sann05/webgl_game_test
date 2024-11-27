@@ -76,8 +76,14 @@
           is_visible: true,
         },
       });
-      window.parent.postMessage(data, 'https://web.telegram.org');
-      window.TelegramWebviewProxy.postEvent('web_app_setup_back_button', data);
+      try {
+        console.log("TEST!!!: Posting message to parent");
+        window.parent.postMessage(data, 'https://web.telegram.org');
+        window.TelegramWebviewProxy.postEvent('web_app_setup_back_button', data);
+      } catch (error) {
+        console.error("TEST!!!: Error posting message:", error);
+      }
+
 
       Telegram.WebApp.onEvent('backButtonClicked', function() {
         console.log("TEST!!!: Back button clicked onEvent");
