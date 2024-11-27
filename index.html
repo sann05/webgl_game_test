@@ -76,8 +76,16 @@
           is_visible: true,
         },
       });
-
       window.parent.postMessage(data, 'https://web.telegram.org');
+      window.TelegramWebviewProxy.postEvent('web_app_setup_back_button', data);
+
+      Telegram.WebApp.onEvent('backButtonClicked', function() {
+        console.log("TEST!!!: Back button clicked onEvent");
+      });
+
+      Telegram.WebApp.BackButton.onClick(function() {
+        console.log("TEST!!!: Back button clicked onClick");
+      });
     </script>
   </body>
 </html>
