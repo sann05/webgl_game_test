@@ -98,6 +98,12 @@
 
       Telegram.WebApp.onEvent('deactivated', function() {
         console.log("TEST!!!: Deactivated onEvent");
+        Telegram.WebApp.showConfirm("Game is minimized");
+      });
+
+      Telegram.WebApp.onEvent('activated', function() {
+        console.log("TEST!!!: Activated onEvent");
+        Telegram.WebApp.showConfirm("Game is back");
       });
 
       Telegram.WebApp.BackButton.onClick(function() {
