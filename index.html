@@ -92,6 +92,7 @@
 
       Telegram.WebApp.onEvent('backButtonClicked', function() {
         console.log("TEST!!!: Back button clicked onEvent");
+        Telegram.WebApp.showConfirm("Event backButtonClicked triggered");
       });
 
       Telegram.WebApp.onEvent('deactivated', function() {
@@ -106,6 +107,7 @@
 
       Telegram.WebApp.BackButton.onClick(function() {
         console.log("TEST!!!: Back button clicked onClick");
+        Telegram.WebApp.showConfirm("BackButton onClick triggered");
         Telegram.WebApp.close();
       });
     </script>
