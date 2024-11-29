@@ -27,15 +27,15 @@ function unityShowBanner(msg, type) {
 
 // Unity build configuration
 var buildUrl = "Build";
-var loaderUrl = buildUrl + "/WEBGL_Debug.loader.js";
+var loaderUrl = buildUrl + "/WEBGL_CandidateSaveFix.loader.js";
 var config = {
-    dataUrl: buildUrl + "/054db086c8f5885fb2040bca0e803a51.data.unityweb",
-    frameworkUrl: buildUrl + "/523c709e8128e9969617447b71158da4.js.unityweb",
-    codeUrl: buildUrl + "/f7c23da50925ef096a007c928e980172.wasm.unityweb",
+    dataUrl: buildUrl + "/5b0f53ede71a564e581ac4d04e78c25c.data.unityweb",
+    frameworkUrl: buildUrl + "/8abd98dfffdd439c080b5ae86854d787.js.unityweb",
+    codeUrl: buildUrl + "/1ba1c94b2663b8a3d2ccf18901756922.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "KorubovGames",
-    productName: "ZombieTrain_Dev",
-    productVersion: "1.250",
+    productName: "ZombieTrain_Prod",
+    productVersion: "1.270",
     showBanner: unityShowBanner,
 };
 
@@ -83,56 +83,5 @@ script.onload = () => {
 };
 document.body.appendChild(script);
 
-// Telegram WebApp integration and initialization
-function initializeTelegram() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        const webApp = window.Telegram.WebApp;
-        webApp.expand(); // Expands the mini-app to full screen
-
-        console.log("Telegram WebApp initialized.");
-    } else {
-        console.log("Telegram WebApp API not available.");
-    }
-}
-
-// Function to retrieve user data from Telegram
-function requestTelegramUserData() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        const user = window.Telegram.WebApp.initDataUnsafe.user;
-        if (user) {
-            const userData = {
-                id: user.id,
-                firstName: user.first_name,
-                lastName: user.last_name,
-                username: user.username
-            };
-            // Send the user data to Unity
-            if (unityInstance) {
-                unityInstance.SendMessage('TelegramManager', 'ReceiveUserData', JSON.stringify(userData));
-            } else {
-                console.log("Unity instance not yet available.");
-            }
-        } else {
-            console.log("No user data found.");
-        }
-    } else {
-        console.log("Telegram WebApp API not available.");
-    }
-}
-
-// Check Telegram WebApp connection and handle updates
-function checkTelegramConnection() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        console.log("Telegram WebApp is connected.");
-        window.Telegram.WebApp.onEvent('update', () => {
-            console.log('Telegram data updated');
-            requestTelegramUserData(); // Fetch user data when there's an update event
-        });
-    } else {
-        alert("Telegram WebApp API not available.");
-    }
-}
-
-// Initialize Telegram and check connectivity
-initializeTelegram();
-checkTelegramConnection();
+window.Telegram.WebApp.ready();
+window.Telegram.WebApp.enableClosingConfirmation();
