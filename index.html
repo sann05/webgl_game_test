@@ -120,6 +120,9 @@ var unityInstance = null; // Global declaration for the Unity instance
             };
 
       document.body.appendChild(script);
+	  
+	window.Telegram.WebApp.ready();
+	window.Telegram.WebApp.enableClosingConfirmation();
 
     </script>
   </body>
