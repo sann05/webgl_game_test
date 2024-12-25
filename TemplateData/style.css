@@ -1,25 +1,108 @@
-body { padding: 0; margin: 0 }
-#unity-container { position: absolute }
-#unity-container.unity-desktop { left: 50%; top: 50%; transform: translate(-50%, -50%) }
-#unity-container.unity-mobile { position: fixed; width: 100%; height: 100% }
-
-#unity-loading-bar {
-    position: absolute;
-    bottom: 50px; /* Vertically center it within the bottom image */
-    left: 50%; /* Start from the center of the screen */
-    transform: translateX(-50%); /* Adjust the left alignment */
-    display: none;
+body { 
+    padding: 0; 
+    margin: 0; 
 }
 
-#unity-canvas { background-image: url('RoadMap.png'); background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%;}.png
-.unity-mobile #unity-canvas { width: 100%; height: 100% }
+#unity-container { 
+    position: absolute; 
+}
 
-#unity-logo { width: 154px; height: 130px;  }
-#unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-dark.png') no-repeat center }
-#unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center }
-#unity-footer { position: relative}
-.unity-mobile #unity-footer { display: none }
-#unity-webgl-logo { float:left; width: 204px; height: 38px; background: url('webgl-logo.png') no-repeat center }
-#unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: arial; font-size: 18px }
-#unity-fullscreen-button { cursor:pointer; float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center }
-#unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
+#unity-container.unity-desktop { 
+    left: 50%; 
+    top: 50%; 
+    transform: translate(-50%, -50%); 
+}
+
+#unity-container.unity-mobile { 
+    position: fixed; 
+    width: 100%; 
+    height: 100%; 
+}
+
+/* Loading Bar - Full Width at the Bottom */
+#unity-loading-bar {
+    position: absolute;
+    bottom: 0; /* Stick to the bottom of the screen */
+    left: 0; /* Start from the left */
+    width: 100%; /* Full screen width */
+    height: 50px; /* Adjust height as needed */
+    display: block; /* Ensure it's visible */
+    background-color: transparent; /* Optional: Transparent background */
+}
+
+/* Empty Loading Bar Background using RoadMap_Loading.png */
+#unity-progress-bar-empty {
+    width: 100%; /* Full width for the loading bar */
+    height: 100%; /* Full height for the loading bar */
+    background: url('RoadMap_Loading.png') no-repeat center; 
+    background-size: cover; /* Ensure the image covers the entire bar */
+}
+
+/* Full Loading Bar Progress */
+#unity-progress-bar-full {
+    height: 100%; /* Match the height of the empty bar */
+    background: url('progress-bar-full-dark.png') no-repeat center; 
+    background-size: cover; /* Ensure the image stretches to fill */
+    width: 0%; /* This will be updated dynamically */
+}
+
+/* Canvas Settings */
+#unity-canvas { 
+    background-image: url('RoadMap.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    width: 100%; 
+}
+
+.unity-mobile #unity-canvas { 
+    width: 100%; 
+    height: 100%; 
+}
+
+/* Other Styles */
+#unity-logo { 
+    width: 154px; 
+    height: 130px; 
+}
+
+#unity-footer { 
+    position: relative; 
+}
+
+.unity-mobile #unity-footer { 
+    display: none; 
+}
+
+#unity-webgl-logo { 
+    float: left; 
+    width: 204px; 
+    height: 38px; 
+    background: url('webgl-logo.png') no-repeat center; 
+}
+
+#unity-build-title { 
+    float: right; 
+    margin-right: 10px; 
+    line-height: 38px; 
+    font-family: arial; 
+    font-size: 18px; 
+}
+
+#unity-fullscreen-button { 
+    cursor: pointer; 
+    float: right; 
+    width: 38px; 
+    height: 38px; 
+    background: url('fullscreen-button.png') no-repeat center; 
+}
+
+#unity-warning { 
+    position: absolute; 
+    left: 50%; 
+    top: 5%; 
+    transform: translate(-50%); 
+    background: white; 
+    padding: 10px; 
+    display: none; 
+}
