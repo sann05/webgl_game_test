@@ -9,6 +9,10 @@ body { padding: 0; margin: 0 }
     left: 50%; /* Start from the center of the screen */
     transform: translateX(-50%); /* Adjust the left alignment */
     display: none;
+	background-image: url('RoadMap_Loading.png');
+	background-size: cover;
+	background-position: center;
+	width: 100%;
 }
 
 #unity-canvas { background-image: url('RoadMap.png'); background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%;}.png
