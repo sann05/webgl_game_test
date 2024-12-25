@@ -1,6 +1,7 @@
 var unityInstance = null; // Global declaration for the Unity instance
 var container = document.querySelector("#unity-container");
 var canvas = document.querySelector("#unity-canvas");
+var canvasBottom = document.querySelector("#unity-canvasBottom");
 var loadingBar = document.querySelector("#unity-loading-bar");
 var progressBarFull = document.querySelector("#unity-progress-bar-full");
 var fullscreenButton = document.querySelector("#unity-fullscreen-button");
