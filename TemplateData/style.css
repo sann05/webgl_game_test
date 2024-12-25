@@ -6,8 +6,8 @@ body { padding: 0; margin: 0 }
 .unity-mobile #unity-canvas { width: 100%; height: 100% }
 #unity-loading-bar {
     position: absolute;
-    bottom: 50px; /* 50px from the bottom */
-    right: 50px;  /* 50px from the right */
+    bottom: 10px; /* 50px from the bottom */
+    right: 40px;  /* 50px from the right */
     display: none;
     transform: none; /* Remove the center positioning transform */
 }
