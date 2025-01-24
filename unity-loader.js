@@ -73,6 +73,7 @@ script.onload = () => {
         progressBarFull.style.width = 100 * progress + "%";
     }).then((instance) => {
         unityInstance = instance; // Set the global unityInstance variable
+		document.getElementById('bug-game-container').remove(); // Remove mini-game
         loadingBar.style.display = "none";
         fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
