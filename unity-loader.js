@@ -29,13 +29,13 @@ function unityShowBanner(msg, type) {
 var buildUrl = "Build";
 var loaderUrl = buildUrl + "/WEBGL_WeaponReworks.loader.js";
 var config = {
-    dataUrl: buildUrl + "/b9448a588b92d8e6cde40a516778841a.data.unityweb",
+    dataUrl: buildUrl + "/c4b2874f7d6b703cf5fa7cd67bd2fbd6.data.unityweb",
     frameworkUrl: buildUrl + "/45ebd787801724244c6003bb961e4d7d.js.unityweb",
     codeUrl: buildUrl + "/6ad8ff648309efe770973358d834e633.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "KorubovGames",
     productName: "ZombieTrain_Prod",
-    productVersion: "1.313",
+    productVersion: "1.315",
     showBanner: unityShowBanner,
 };
 
@@ -73,7 +73,6 @@ script.onload = () => {
         progressBarFull.style.width = 100 * progress + "%";
     }).then((instance) => {
         unityInstance = instance; // Set the global unityInstance variable
-		document.getElementById('bug-game-container').remove(); // Remove mini-game
         loadingBar.style.display = "none";
         fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);

@@ -60,64 +60,12 @@
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title">ZombieTrain_Prod</div>
       </div>
-	  <div id="bug-game-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; pointer-events: auto;">
-		<div id="bugs-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;"></div>
-	  </div>
     </div>
-	
-	<script>
-		const bugsContainer = document.querySelector('#bugs-container');
-
-		function spawnBug() {
-		  const bug = document.createElement('div');
-		  bug.className = 'bug';
-		  bug.style.width = '50px';
-		  bug.style.height = '50px';
-		  bug.style.backgroundImage = "url('bug.png')";
-		  bug.style.backgroundSize = 'contain';
-		  bug.style.backgroundRepeat = 'no-repeat';
-		  bug.style.position = 'absolute';
-		  bug.style.left = Math.random() * 90 + '%';
-		  bug.style.top = Math.random() * 90 + '%';
-		  bug.style.cursor = 'pointer';
-		  bug.style.transition = 'transform 0.1s ease-in-out';
-
-		  bug.addEventListener('click', () => squashBug(bug));
-		  bugsContainer.appendChild(bug);
-
-		  // Auto-remove bug after 5 seconds
-		  setTimeout(() => {
-			  if (bug && bug.parentNode) bug.remove();
-		  }, 5000);
-		  }
-
-		  function squashBug(bug) {
-			  bug.style.backgroundImage = "url('squashed-bug.png')";
-			  bug.style.transform = 'scale(0.8)';
-			  bug.style.pointerEvents = 'none'; // Disable further clicks
-			  setTimeout(() => bug.remove(), 1000); // Remove bug after 1 second
-		  }
-
-		  function startBugGame() {
-			  // Spawn bugs at intervals
-			  const bugSpawnInterval = setInterval(() => {
-				  if (document.readyState === 'complete') {
-					  clearInterval(bugSpawnInterval);
-					  document.getElementById('bug-game-container').remove(); // Remove mini-game when Unity finishes loading
-				  } else {
-					  spawnBug();
-				  }
-			  }, 1000);
-		  }
-
-		  // Start the bug game
-		  startBugGame();
-	</script>
 
     <!-- Load Unity WebGL-related script -->
     <script src="unity-loader.js"></script>
     <!-- Load Telegram-related script -->
     <script src="telegram-integration.js"></script>
-
+	
   </body>
 </html>
