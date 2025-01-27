@@ -29,13 +29,13 @@ function unityShowBanner(msg, type) {
 var buildUrl = "Build";
 var loaderUrl = buildUrl + "/WEBGL_WeaponReworks.loader.js";
 var config = {
-    dataUrl: buildUrl + "/8e7fa3c2b3ce3309c6932e660138e07f.data.unityweb",
+    dataUrl: buildUrl + "/7f70363a25c01f60faee8d7c6f1aaa05.data.unityweb",
     frameworkUrl: buildUrl + "/0c90fece0ec9dfae56689072ecf6432e.js.unityweb",
     codeUrl: buildUrl + "/d9c80300120133ab449ed76f425e3bd4.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "KorubovGames",
     productName: "ZombieTrain_Prod",
-    productVersion: "1.321",
+    productVersion: "1.322",
     showBanner: unityShowBanner,
 };
 
@@ -58,10 +58,6 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     canvas.width = width * devicePixelRatio;
     canvas.height = height * devicePixelRatio;
 
-    diagnostics_icon.style.position = "fixed";
-    diagnostics_icon.style.bottom = "10px";
-    diagnostics_icon.style.right = "0px";
-    canvas.after(diagnostics_icon);
 } else {
     canvas.style.width = "1080px";
     canvas.style.height = "1920px";
