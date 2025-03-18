@@ -29,13 +29,13 @@ function unityShowBanner(msg, type) {
 var buildUrl = "Build";
 var loaderUrl = buildUrl + "/WebGL_TG_Ads.loader.js";
 var config = {
-    dataUrl: buildUrl + "/441bab86eccbeb6cd5f5ae0446891ff7.data.unityweb",
+    dataUrl: buildUrl + "/61898aea1756013168064fe0e88bfd5a.data.unityweb",
     frameworkUrl: buildUrl + "/0e6e62ecd26c2781209916bba3929d3e.js.unityweb",
     codeUrl: buildUrl + "/8e05f9eefdf689480f23380d009162df.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "KorubovGames",
     productName: "ZombieTrain_Prod",
-    productVersion: "1.427",
+    productVersion: "1.428",
     showBanner: unityShowBanner,
 };
 
