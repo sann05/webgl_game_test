@@ -22,15 +22,13 @@ function initTelegramIntegration()
         webApp.MainButton.setText("Connected to Telegram!");
         webApp.MainButton.show();
         
-        // Проверка доступности SDK Adsgram
         if (typeof window.Adsgram !== 'undefined') {
             console.log('Adsgram SDK available and ready to use.');
         } else {
             console.warn('Adsgram SDK not found. Ad features may not work.');
         }
-        // Добавление кода для полноэкранного режима
-        webApp.ready();                  // Сообщаем Telegram, что приложение готово
-        webApp.expand();                 // Расширяем приложение на максимальную высоту
+        webApp.ready();                 
+        webApp.expand();                 
         webApp.requestFullscreen();
 
         
