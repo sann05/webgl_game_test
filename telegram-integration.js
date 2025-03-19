@@ -1,31 +1,47 @@
-// Function to initialize the Telegram WebApp
-function initializeTelegram() 
+function initTelegramIntegration() 
 {
     if (window.Telegram && window.Telegram.WebApp) 
-	{
+    {
         const webApp = window.Telegram.WebApp;
-        webApp.expand(); // Expands the mini-app to the full available window
-        console.log('Telegram WebApp initialized.');
+        console.log('Telegram WebApp data:', webApp.initData);
+
+        const user = webApp.initDataUnsafe.user;
+        if (user) 
+        {
+            console.log(`User ID: ${user.id}`);
+            console.log(`First Name: ${user.first_name}`);
+            console.log(`Last Name: ${user.last_name}`);
+            console.log(`Username: ${user.username}`);
+        } 
+        else 
+        {
+            console.log('No user information available.');
+        }
+
+        webApp.setBackgroundColor("#1abc9c");
+        webApp.MainButton.setText("Connected to Telegram!");
+        webApp.MainButton.show();
+        
+        // Проверка доступности SDK Adsgram
+        if (typeof window.Adsgram !== 'undefined') {
+            console.log('Adsgram SDK available and ready to use.');
+        } else {
+            console.warn('Adsgram SDK not found. Ad features may not work.');
+        }
+        // Добавление кода для полноэкранного режима
+        webApp.ready();                  // Сообщаем Telegram, что приложение готово
+        webApp.expand();                 // Расширяем приложение на максимальную высоту
+        webApp.requestFullscreen();
+
+        
     } 
-	else 
-	{
+    else 
+    {
         console.log('Telegram WebApp API not available.');
+        alert("Telegram WebApp API not available. Closing the game.");
+        setTimeout(() => window.close(), 2000);
     }
 }
 
-// Check Telegram connectivity and initialize the WebApp
-function checkTelegramConnection() 
-{
-    if (window.Telegram && window.Telegram.WebApp) 
-	{
-        console.log("Telegram WebApp is connected.");
-    } 
-	else 
-	{
-        console.log("Telegram WebApp API not available.");
-    }
-}
-
-// Initialize Telegram when the page loads
-initializeTelegram();
-checkTelegramConnection();
+// Call the Telegram initialization
+initTelegramIntegration();

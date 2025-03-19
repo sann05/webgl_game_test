@@ -27,15 +27,15 @@ function unityShowBanner(msg, type) {
 
 // Unity build configuration
 var buildUrl = "Build";
-var loaderUrl = buildUrl + "/WebGL_TG_Stories.loader.js";
+var loaderUrl = buildUrl + "/Builds.loader.js";
 var config = {
-    dataUrl: buildUrl + "/7ae1d111fdd93790f435644251925ff8.data.unityweb",
-    frameworkUrl: buildUrl + "/246959c60cf5a723438d32cbce8a0616.js.unityweb",
-    codeUrl: buildUrl + "/9af4dd8f87738a1906f5b4ee446fecf2.wasm.unityweb",
+    dataUrl: buildUrl + "/0c5379ce92f4e1604aa93ebb49286878.data.unityweb",
+    frameworkUrl: buildUrl + "/e6ade89a50f8e2df0c7c1f21dab0a6cb.js.unityweb",
+    codeUrl: buildUrl + "/c23442f94bb74e6859ab76e843a3c488.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "KorubovGames",
     productName: "ZombieTrain_Prod",
-    productVersion: "1.443",
+    productVersion: "1.439",
     showBanner: unityShowBanner,
 };
 
@@ -82,6 +82,3 @@ script.onload = () => {
     });
 };
 document.body.appendChild(script);
-
-window.Telegram.WebApp.ready();
-window.Telegram.WebApp.enableClosingConfirmation();
