@@ -32,26 +32,15 @@
         position: absolute;
         top: 0;
         left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       canvas {
         width: 100% !important;
         height: 100% !important;
         max-width: 1080px;
         margin: 0 auto;
-      }
-      @media screen and (orientation: landscape) {
-        body::before {
-          content: "Please rotate your device to portrait mode";
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 24px;
-          color: #333;
-        }
-        canvas {
-          display: none;
-        }
       }
     </style>
   </head>
