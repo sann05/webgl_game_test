@@ -37,6 +37,8 @@ function initTelegramIntegration()
                 document.removeEventListener('click', enterFullscreen);
             }, { once: true });
         }
+
+        webApp.hapticFeedback.impactOccurred('medium');
         
     } 
     else 
