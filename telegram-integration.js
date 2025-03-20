@@ -19,18 +19,24 @@ function initTelegramIntegration()
         }
 
         webApp.setBackgroundColor("#1abc9c");
-        webApp.MainButton.setText("Connected to Telegram!");
-        webApp.MainButton.show();
-        
-        if (typeof window.Adsgram !== 'undefined') {
-            console.log('Adsgram SDK available and ready to use.');
-        } else {
-            console.warn('Adsgram SDK not found. Ad features may not work.');
-        }
         webApp.ready();                 
         webApp.expand();                 
-        webApp.requestFullscreen();
 
+        // Check platform
+        const platform = webApp.platform;
+        console.log('Platform:', platform);
+
+        // Use requestFullscreen for mobile devices
+        if (platform === 'ios' || platform === 'android') {
+            webApp.requestFullscreen();
+        } 
+        // Add click handler for desktop
+        else if (platform === 'tdesktop' || platform === 'macos') {
+            document.addEventListener('click', function enterFullscreen() {
+                webApp.requestFullscreen();
+                document.removeEventListener('click', enterFullscreen);
+            }, { once: true });
+        }
         
     } 
     else 
