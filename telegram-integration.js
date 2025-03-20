@@ -29,17 +29,7 @@ function initTelegramIntegration()
         // Use requestFullscreen for mobile devices
         if (platform === 'ios' || platform === 'android') {
             webApp.requestFullscreen();
-        } 
-        // Add click handler for desktop
-        else if (platform === 'tdesktop' || platform === 'macos') {
-            document.addEventListener('click', function enterFullscreen() {
-                webApp.requestFullscreen();
-                document.removeEventListener('click', enterFullscreen);
-            }, { once: true });
-        }
-
-        webApp.hapticFeedback.impactOccurred('medium');
-        
+        }    
     } 
     else 
     {

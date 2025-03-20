@@ -29,13 +29,13 @@ function unityShowBanner(msg, type) {
 var buildUrl = "Build";
 var loaderUrl = buildUrl + "/9853637125e801e9aae48e78dbbdcfca.loader.js";
 var config = {
-    dataUrl: buildUrl + "/f4ac9d7ce0ea415d8176bec8e286f5f9.data.unityweb",
-    frameworkUrl: buildUrl + "/8c32eeef2f83af41d038edba268fcd0d.framework.js.unityweb",
-    codeUrl: buildUrl + "/1f8ab79a0130e6bf610669b5e3cf717f.wasm.unityweb",
+    dataUrl: buildUrl + "/124e77f81db49cc4e55e56f312384c87.data.unityweb",
+    frameworkUrl: buildUrl + "/7665d49f13e473c625cffcf2e1aa56ee.framework.js.unityweb",
+    codeUrl: buildUrl + "/93ed6df0b4e07a509f69cddced9bc8cf.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "KorubovGames",
     productName: "ZombieTrain_Prod",
-    productVersion: "1.454",
+    productVersion: "1.453",
     showBanner: unityShowBanner,
 };
 
@@ -60,7 +60,7 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 
 } else {
     const aspectRatio = 9 / 16; // Используем то же соотношение сторон как на Android
-    var width = Math.min(window.innerWidth, 1080); // Ограничиваем ширину до 1080px
+    var width = Math.min(window.innerWidth, 720); // Ограничиваем ширину до 1080px
     var height = width * aspectRatio;
     canvas.style.width = width + "px";
     canvas.style.height = height + "px";
