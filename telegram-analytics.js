@@ -7,6 +7,7 @@ if (typeof initAnalytics === 'undefined') {
                 appName: 'ZombieTrain_Test',
             });
             console.log('Telegram Analytics initialized successfully');
+            
         } else {
             console.error('Telegram Analytics SDK not loaded');
         }
