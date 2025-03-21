@@ -7,14 +7,25 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Telegram SDK -->
-	<script src="https://cdn.devtodev.com/sdk/web/v2/devtodevsdk.js"></script>
+
+	  <script src="https://cdn.devtodev.com/sdk/web/v2/devtodevsdk.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script> <!-- TonConnect UI -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  
+    <script 
+      async 
+      src="https://tganalytics.xyz/index.js" 
+      onload="initAnalytics()" 
+      type="text/javascript">
+    </script>
+
     <style>
       html, body {
         margin: 0;
         padding: 0;
         overflow: hidden;
         height: 100%;
+        background-color: #231F20;
       }
       #unity-container {
         width: 100vw;
@@ -22,26 +33,15 @@
         position: absolute;
         top: 0;
         left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       canvas {
         width: 100% !important;
         height: 100% !important;
         max-width: 1080px;
         margin: 0 auto;
-      }
-      @media screen and (orientation: landscape) {
-        body::before {
-          content: "Please rotate your device to portrait mode";
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 24px;
-          color: #333;
-        }
-        canvas {
-          display: none;
-        }
       }
     </style>
   </head>
@@ -55,17 +55,13 @@
         </div>
       </div>
       <div id="unity-warning"></div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">ZombieTrain_Prod</div>
-      </div>
     </div>
 
     <!-- Load Unity WebGL-related script -->
     <script src="unity-loader.js"></script>
     <!-- Load Telegram-related script -->
     <script src="telegram-integration.js"></script>
+    <script src="telegram-analytics.js"></script>
 	
   </body>
 </html>

@@ -27,15 +27,15 @@ function unityShowBanner(msg, type) {
 
 // Unity build configuration
 var buildUrl = "Build";
-var loaderUrl = buildUrl + "/WebGL_1.4_ShopFix.loader.js";
+var loaderUrl = buildUrl + "/9853637125e801e9aae48e78dbbdcfca.loader.js";
 var config = {
-    dataUrl: buildUrl + "/090b7be41979ec952400ddb7ae7843ea.data.unityweb",
-    frameworkUrl: buildUrl + "/c436bc4b517c85f49a9f68df68b7b364.js.unityweb",
-    codeUrl: buildUrl + "/72263dc2484a3367613dfe23e013e330.wasm.unityweb",
+    dataUrl: buildUrl + "/7f35b5ec4ad415a13278c4a1e55e094a.data.unityweb",
+    frameworkUrl: buildUrl + "/4ccc87c7186a48edf0461e274c7fcff5.framework.js.unityweb",
+    codeUrl: buildUrl + "/3893386ce046a709687c17cd4458693c.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "KorubovGames",
     productName: "ZombieTrain_Prod",
-    productVersion: "1.417",
+    productVersion: "1.458",
     showBanner: unityShowBanner,
 };
 
@@ -59,8 +59,11 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     canvas.height = height * devicePixelRatio;
 
 } else {
-    canvas.style.width = "1080px";
-    canvas.style.height = "1920px";
+    const aspectRatio = 9 / 16; // Используем то же соотношение сторон как на Android
+    var width = Math.min(window.innerWidth, 720); // Ограничиваем ширину до 1080px
+    var height = width * aspectRatio;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
 }
 
 loadingBar.style.display = "block";
@@ -74,14 +77,13 @@ script.onload = () => {
     }).then((instance) => {
         unityInstance = instance; // Set the global unityInstance variable
         loadingBar.style.display = "none";
-        fullscreenButton.onclick = () => {
-            unityInstance.SetFullscreen(1);
-        };
+        if (fullscreenButton) {
+            fullscreenButton.onclick = () => {
+                unityInstance.SetFullscreen(1);
+            };
+        }
     }).catch((message) => {
         alert(`Failed to load Unity instance: ${message}`);
     });
 };
 document.body.appendChild(script);
-
-window.Telegram.WebApp.ready();
-window.Telegram.WebApp.enableClosingConfirmation();
