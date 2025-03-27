@@ -26,6 +26,26 @@
       background-color: #231F20;
     }
 
+    #resolution-selector {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #resolution-selector button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
     #unity-container {
       width: 100vw;
       height: 100vh;
@@ -35,63 +55,27 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      display: none;
     }
 
     canvas {
       width: 100% !important;
       height: 100% !important;
-      max-width: 1080px;
       margin: 0 auto;
-    }
-
-    #resolution-selector {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
-
-    .resolution-button {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-      width: 200px;
-    }
-
-    .resolution-button:hover {
-      background-color: #45a049;
-    }
-
-    h1 {
-      margin-bottom: 30px;
+      display: block;
     }
   </style>
 </head>
 
 <body>
   <div id="resolution-selector">
-    <h1>Выберите разрешение</h1>
-    <button class="resolution-button" onclick="setResolution(1920, 1080)">1920x1080</button>
-    <button class="resolution-button" onclick="setResolution(1280, 720)">1280x720</button>
-    <button class="resolution-button" onclick="setResolution(854, 480)">854x480</button>
+    <button data-width="800">Качество: Низкое (800px)</button>
+    <button data-width="1080">Качество: Среднее (1080px)</button>
+    <button data-width="1280">Качество: Высокое (1280px)</button>
   </div>
 
   <div id="unity-container" class="unity-desktop">
     <canvas id="unity-canvas" width="{{{ WIDTH }}}" height="{{{ HEIGHT }}}" tabindex="-1"></canvas>
-    <div id="unity-loading-bar">
+    <div id="unity-loading-bar" style="display: none;">
       <div id="unity-logo"></div>
       <div id="unity-progress-bar-empty">
         <div id="unity-progress-bar-full"></div>
@@ -99,31 +83,6 @@
     </div>
     <div id="unity-warning"></div>
   </div>
-
-  <script>
-    function setResolution(width, height) {
-      document.getElementById('resolution-selector').style.display = 'none';
-      document.getElementById('unity-container').style.display = 'flex';
-      document.getElementById('unity-canvas').width = width;
-      document.getElementById('unity-canvas').height = height;
-      // Здесь можно добавить вызов функции инициализации Unity
-      if (typeof createUnityInstance === 'function') {
-        createUnityInstance(document.querySelector("#unity-canvas"), {
-          dataUrl: "{{{ LOADER_DATA }}}",
-          frameworkUrl: "{{{ FRAMEWORK_URL }}}",
-          codeUrl: "{{{ CODE_URL }}}",
-          streamingAssetsUrl: "{{{ STREAMING_ASSETS_URL }}}",
-          companyName: "{{{ COMPANY_NAME }}}",
-          productName: "{{{ PRODUCT_NAME }}}",
-          productVersion: "{{{ PRODUCT_VERSION }}}",
-          showBanner: false,
-          webglContextAttributes: {
-            preserveDrawingBuffer: true
-          }
-        });
-      }
-    }
-  </script>
 
   <!-- Load Unity WebGL-related script -->
   <script src="unity-loader.js"></script>
