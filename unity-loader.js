@@ -37,10 +37,10 @@ var config = {
     workerUrl: buildUrl + "/{{{ WORKER_FILENAME }}}",
     codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
     streamingAssetsUrl: "StreamingAssets",
-    companyName: "{{{ COMPANY_NAME }}}",
-    productName: "{{{ PRODUCT_NAME }}}",
-    productVersion: "{{{ PRODUCT_VERSION }}}",
-    showBanner: unityShowBanner,
+    companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+productName: { { { JSON.stringify(PRODUCT_NAME) } } },
+productVersion: { { { JSON.stringify(PRODUCT_VERSION) } } },
+showBanner: unityShowBanner,
 };
 
 // Mobile device configuration
