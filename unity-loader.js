@@ -27,55 +27,71 @@ function unityShowBanner(msg, type) {
 
 // Unity build configuration
 var buildUrl = "Build";
-var loaderUrl = buildUrl + "/9853637125e801e9aae48e78dbbdcfca.loader.js";
+var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
 var config = {
-    dataUrl: buildUrl + "/c0b9620a83f44f738a0d4b9f392cd519.data.unityweb",
-    frameworkUrl: buildUrl + "/ce0b4d69b17848dd2695a40db6858652.framework.js.unityweb",
-    codeUrl: buildUrl + "/c48a0a9ec53f96bb84a811a7e5bcceb2.wasm.unityweb",
+    dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+    frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+    #if USE_THREADS
+    workerUrl: buildUrl + "/{{{ WORKER_FILENAME }}}",
+    #endif
+#if USE_WASM
+    codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+    #endif
     streamingAssetsUrl: "StreamingAssets",
-    companyName: "KorubovGames",
-    productName: "ZombieTrain_Prod",
-    productVersion: "1.468",
-    showBanner: unityShowBanner,
+    companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+productName: { { { JSON.stringify(PRODUCT_NAME) } } },
+productVersion: { { { JSON.stringify(PRODUCT_VERSION) } } },
+showBanner: unityShowBanner,
 };
 
-// Mobile device configuration
-if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    var meta = document.createElement('meta');
-    meta.name = 'viewport';
-    meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-    document.getElementsByTagName('head')[0].appendChild(meta);
-    container.className = "unity-mobile";
-    canvas.className = "unity-mobile";
+// Добавляем функцию для создания кнопок выбора разрешения
+function createResolutionButtons() {
+    const resolutionContainer = document.createElement('div');
+    resolutionContainer.style.textAlign = 'center';
+    resolutionContainer.style.marginBottom = '10px';
 
+    const resolutions = [
+        { name: 'Low Resolution', width: 540, pixelRatio: 1 },
+        { name: 'Medium Resolution', width: 720, pixelRatio: 1.5 },
+        { name: 'High Resolution', width: 1080, pixelRatio: 2 }
+    ];
+
+    resolutions.forEach(res => {
+        const button = document.createElement('button');
+        button.innerHTML = res.name;
+        button.style.margin = '0 5px';
+        button.onclick = () => setResolutionAndStart(res.width, res.pixelRatio);
+        resolutionContainer.appendChild(button);
+    });
+
+    container.insertBefore(resolutionContainer, canvas);
+}
+
+// Функция установки разрешения и запуска Unity
+function setResolutionAndStart(targetWidth, targetPixelRatio) {
     const aspectRatio = 9 / 16;
-    var width = Math.min(window.innerWidth, 1080); // Limit width to 1080px max
-    var height = width * aspectRatio;
+    const width = Math.min(targetWidth, window.innerWidth);
+    const height = width * aspectRatio;
+
     canvas.style.width = width + "px";
     canvas.style.height = height + "px";
 
-    var devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2); // Limit the pixel ratio to reduce resolution on high-density screens
+    const devicePixelRatio = Math.min(targetPixelRatio, 2);
     canvas.width = width * devicePixelRatio;
     canvas.height = height * devicePixelRatio;
 
-} else {
-    const aspectRatio = 9 / 16; // Используем то же соотношение сторон как на Android
-    var width = Math.min(window.innerWidth, 720); // Ограничиваем ширину до 1080px
-    var height = width * aspectRatio;
-    canvas.style.width = width + "px";
-    canvas.style.height = height + "px";
-}
+    // Удаляем кнопки после выбора
+    const resolutionContainer = container.querySelector('div');
+    if (resolutionContainer) {
+        container.removeChild(resolutionContainer);
+    }
 
-loadingBar.style.display = "block";
-
-// Load the Unity WebGL build
-var script = document.createElement("script");
-script.src = loaderUrl;
-script.onload = () => {
+    // Запускаем Unity
+    loadingBar.style.display = "block";
     createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + "%";
     }).then((instance) => {
-        unityInstance = instance; // Set the global unityInstance variable
+        unityInstance = instance;
         loadingBar.style.display = "none";
         if (fullscreenButton) {
             fullscreenButton.onclick = () => {
@@ -85,5 +101,28 @@ script.onload = () => {
     }).catch((message) => {
         alert(`Failed to load Unity instance: ${message}`);
     });
-};
+}
+
+// Mobile device configuration
+if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+    var meta = document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+    document.getElementsByTagName('head')[0].appendChild(meta);
+    container.className = "unity-mobile";
+    canvas.className = "unity-mobile";
+} else {
+    const aspectRatio = 9 / 16; // Используем то же соотношение сторон как на Android
+    var width = Math.min(window.innerWidth, 720); // Ограничиваем ширину до 1080px
+    var height = width * aspectRatio;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+}
+
+// Создаем кнопки выбора разрешения
+createResolutionButtons();
+
+// Загружаем скрипт Unity, но не запускаем его автоматически
+var script = document.createElement("script");
+script.src = loaderUrl;
 document.body.appendChild(script);
