@@ -1,99 +1,67 @@
 <!DOCTYPE html>
 <html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | ZombieTrain_Prod</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Telegram SDK -->
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Unity WebGL Player | {{{ PRODUCT_NAME }}}</title>
-  <link rel="shortcut icon" href="TemplateData/favicon.ico">
-  <link rel="stylesheet" href="TemplateData/style.css">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Telegram SDK -->
+	  <script src="https://cdn.devtodev.com/sdk/web/v2/devtodevsdk.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script> <!-- TonConnect UI -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  
+    <script 
+      async 
+      src="https://tganalytics.xyz/index.js" 
+      onload="initAnalytics()" 
+      type="text/javascript">
+    </script>
 
-  <script src="https://cdn.devtodev.com/sdk/web/v2/devtodevsdk.js"></script>
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script> <!-- TonConnect UI -->
-  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-
-  <!-- Сначала загружаем скрипт, определяющий initAnalytics -->
-  <script src="telegram-analytics.js"></script>
-
-  <!-- Затем загружаем скрипт, который вызывает initAnalytics в onload -->
-  <script async src="https://tganalytics.xyz/index.js" onload="initAnalytics()" type="text/javascript">
-  </script>
-
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      height: 100%;
-      background-color: #231F20;
-    }
-
-    #resolution-selector {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    #resolution-selector button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    #unity-container {
-      width: 100vw;
-      height: 100vh;
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    canvas {
-      width: 100% !important;
-      height: 100% !important;
-      margin: 0 auto;
-      display: block;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="resolution-selector">
-    <button data-width="800">Качество: Низкое (800px)</button>
-    <button data-width="1080">Качество: Среднее (1080px)</button>
-    <button data-width="1280">Качество: Высокое (1280px)</button>
-  </div>
-
-  <div id="unity-container" class="unity-desktop">
-    <canvas id="unity-canvas" width="{{{ WIDTH }}}" height="{{{ HEIGHT }}}" tabindex="-1"></canvas>
-    <div id="unity-loading-bar" style="display: none;">
-      <div id="unity-logo"></div>
-      <div id="unity-progress-bar-empty">
-        <div id="unity-progress-bar-full"></div>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100%;
+        background-color: #231F20;
+      }
+      #unity-container {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      canvas {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width="1080" height="1920" tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
       </div>
+      <div id="unity-warning"></div>
     </div>
-    <div id="unity-warning"></div>
-  </div>
 
-  <!-- Load Unity WebGL-related script -->
-  <script src="unity-loader.js"></script>
-  <!-- Load Telegram-related script -->
-  <script src="telegram-integration.js"></script>
-  <!-- <script src="telegram-analytics.js"></script> --> <!-- Удаляем отсюда -->
-
-</body>
-
+    <!-- Load Unity WebGL-related script -->
+    <script src="unity-loader.js"></script>
+    <!-- Load Telegram-related script -->
+    <script src="telegram-integration.js"></script>
+    <script src="telegram-analytics.js"></script>
+	
+  </body>
 </html>
