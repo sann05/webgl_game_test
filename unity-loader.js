@@ -5,6 +5,9 @@ var loadingBar = document.querySelector("#unity-loading-bar");
 var progressBarFull = document.querySelector("#unity-progress-bar-full");
 var fullscreenButton = document.querySelector("#unity-fullscreen-button");
 var warningBanner = document.querySelector("#unity-warning");
+var selectedWidth = 0;
+var selectedHeight = 0;
+const aspectRatio = 9 / 16;
 
 // Show banners for errors or warnings
 function unityShowBanner(msg, type) {
@@ -44,54 +47,49 @@ productVersion: { { { JSON.stringify(PRODUCT_VERSION) } } },
 showBanner: unityShowBanner,
 };
 
-// Добавляем функцию для создания кнопок выбора разрешения
-function createResolutionButtons() {
-    const resolutionContainer = document.createElement('div');
-    resolutionContainer.style.textAlign = 'center';
-    resolutionContainer.style.marginBottom = '10px';
+// Mobile device configuration
+if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+    var meta = document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+    document.getElementsByTagName('head')[0].appendChild(meta);
+    container.className = "unity-mobile";
+    canvas.className = "unity-mobile";
 
-    const resolutions = [
-        { name: 'Low Resolution', width: 540, pixelRatio: 1 },
-        { name: 'Medium Resolution', width: 720, pixelRatio: 1.5 },
-        { name: 'High Resolution', width: 1080, pixelRatio: 2 }
-    ];
-
-    resolutions.forEach(res => {
-        const button = document.createElement('button');
-        button.innerHTML = res.name;
-        button.style.margin = '0 5px';
-        button.onclick = () => setResolutionAndStart(res.width, res.pixelRatio);
-        resolutionContainer.appendChild(button);
-    });
-
-    container.insertBefore(resolutionContainer, canvas);
-}
-
-// Функция установки разрешения и запуска Unity
-function setResolutionAndStart(targetWidth, targetPixelRatio) {
     const aspectRatio = 9 / 16;
-    const width = Math.min(targetWidth, window.innerWidth);
-    const height = width * aspectRatio;
-
+    var width = Math.min(window.innerWidth, 1080); // Limit width to 1080px max
+    var height = width * aspectRatio;
     canvas.style.width = width + "px";
     canvas.style.height = height + "px";
 
-    const devicePixelRatio = Math.min(targetPixelRatio, 2);
+    var devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2); // Limit the pixel ratio to reduce resolution on high-density screens
     canvas.width = width * devicePixelRatio;
     canvas.height = height * devicePixelRatio;
 
-    // Удаляем кнопки после выбора
-    const resolutionContainer = container.querySelector('div');
-    if (resolutionContainer) {
-        container.removeChild(resolutionContainer);
-    }
+    #if SHOW_DIAGNOSTICS
+    diagnostics_icon.style.position = "fixed";
+    diagnostics_icon.style.bottom = "10px";
+    diagnostics_icon.style.right = "0px";
+    canvas.after(diagnostics_icon);
+    #endif
+} else {
+    const aspectRatio = 9 / 16; // Используем то же соотношение сторон как на Android
+    var width = Math.min(window.innerWidth, 720); // Ограничиваем ширину до 1080px
+    var height = width * aspectRatio;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+}
 
-    // Запускаем Unity
-    loadingBar.style.display = "block";
+loadingBar.style.display = "block";
+
+// Load the Unity WebGL build
+var script = document.createElement("script");
+script.src = loaderUrl;
+script.onload = () => {
     createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + "%";
     }).then((instance) => {
-        unityInstance = instance;
+        unityInstance = instance; // Set the global unityInstance variable
         loadingBar.style.display = "none";
         if (fullscreenButton) {
             fullscreenButton.onclick = () => {
@@ -101,28 +99,60 @@ function setResolutionAndStart(targetWidth, targetPixelRatio) {
     }).catch((message) => {
         alert(`Failed to load Unity instance: ${message}`);
     });
-}
+};
+document.body.appendChild(script);
 
-// Mobile device configuration
-if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    var meta = document.createElement('meta');
-    meta.name = 'viewport';
-    meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-    document.getElementsByTagName('head')[0].appendChild(meta);
-    container.className = "unity-mobile";
-    canvas.className = "unity-mobile";
-} else {
-    const aspectRatio = 9 / 16; // Используем то же соотношение сторон как на Android
-    var width = Math.min(window.innerWidth, 720); // Ограничиваем ширину до 1080px
-    var height = width * aspectRatio;
+// Заменяем существующую логику загрузки на новую
+function initializeUnity(width, height) {
     canvas.style.width = width + "px";
     canvas.style.height = height + "px";
+
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = width * devicePixelRatio;
+        canvas.height = height * devicePixelRatio;
+    } else {
+        canvas.width = width;
+        canvas.height = height;
+    }
+
+    loadingBar.style.display = "block";
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+            progressBarFull.style.width = 100 * progress + "%";
+        }).then((instance) => {
+            unityInstance = instance;
+            loadingBar.style.display = "none";
+            if (fullscreenButton) {
+                fullscreenButton.onclick = () => {
+                    unityInstance.SetFullscreen(1);
+                };
+            }
+        }).catch((message) => {
+            alert(`Failed to load Unity instance: ${message}`);
+        });
+    };
+    document.body.appendChild(script);
 }
 
-// Создаем кнопки выбора разрешения
-createResolutionButtons();
+// Добавляем обработчики для кнопок
+document.getElementById('low-res').onclick = () => {
+    selectedWidth = Math.min(window.innerWidth, 480);
+    selectedHeight = selectedWidth * aspectRatio;
+    initializeUnity(selectedWidth, selectedHeight);
+};
 
-// Загружаем скрипт Unity, но не запускаем его автоматически
-var script = document.createElement("script");
-script.src = loaderUrl;
-document.body.appendChild(script);
+document.getElementById('medium-res').onclick = () => {
+    selectedWidth = Math.min(window.innerWidth, 720);
+    selectedHeight = selectedWidth * aspectRatio;
+    initializeUnity(selectedWidth, selectedHeight);
+};
+
+document.getElementById('high-res').onclick = () => {
+    selectedWidth = Math.min(window.innerWidth, 1080);
+    selectedHeight = selectedWidth * aspectRatio;
+    initializeUnity(selectedWidth, selectedHeight);
+};
