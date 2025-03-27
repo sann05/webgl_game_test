@@ -138,21 +138,29 @@ function initializeUnity(width, height) {
     document.body.appendChild(script);
 }
 
-// Добавляем обработчики для кнопок
+function hideResolutionButtons() {
+    const buttons = document.getElementById('resolution-buttons');
+    buttons.style.display = 'none';
+}
+
+// Обновляем обработчики для кнопок
 document.getElementById('low-res').onclick = () => {
     selectedWidth = Math.min(window.innerWidth, 480);
     selectedHeight = selectedWidth * aspectRatio;
+    hideResolutionButtons();
     initializeUnity(selectedWidth, selectedHeight);
 };
 
 document.getElementById('medium-res').onclick = () => {
     selectedWidth = Math.min(window.innerWidth, 720);
     selectedHeight = selectedWidth * aspectRatio;
+    hideResolutionButtons();
     initializeUnity(selectedWidth, selectedHeight);
 };
 
 document.getElementById('high-res').onclick = () => {
     selectedWidth = Math.min(window.innerWidth, 1080);
     selectedHeight = selectedWidth * aspectRatio;
+    hideResolutionButtons();
     initializeUnity(selectedWidth, selectedHeight);
 };
