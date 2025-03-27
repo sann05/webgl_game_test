@@ -35,6 +35,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      display: none;
     }
 
     canvas {
@@ -44,42 +45,51 @@
       margin: 0 auto;
     }
 
-    #resolution-buttons {
+    #resolution-selector {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    #resolution-buttons button {
-      padding: 15px 30px;
-      cursor: pointer;
-      font-size: 18px;
-      min-width: 250px;
-      border-radius: 8px;
-      border: none;
-      background-color: #4CAF50;
+      text-align: center;
       color: white;
-      transition: background-color 0.3s;
+      font-family: Arial, sans-serif;
     }
 
-    #resolution-buttons button:hover {
+    .resolution-button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      width: 200px;
+    }
+
+    .resolution-button:hover {
       background-color: #45a049;
+    }
+
+    h1 {
+      margin-bottom: 30px;
     }
   </style>
 </head>
 
 <body>
+  <div id="resolution-selector">
+    <h1>Выберите разрешение</h1>
+    <button class="resolution-button" onclick="setResolution(1920, 1080)">1920x1080</button>
+    <button class="resolution-button" onclick="setResolution(1280, 720)">1280x720</button>
+    <button class="resolution-button" onclick="setResolution(854, 480)">854x480</button>
+  </div>
+
   <div id="unity-container" class="unity-desktop">
-    <div id="resolution-buttons">
-      <button id="low-res">Низкое (480p)</button>
-      <button id="medium-res">Среднее (720p)</button>
-      <button id="high-res">Высокое (1080p)</button>
-    </div>
     <canvas id="unity-canvas" width="{{{ WIDTH }}}" height="{{{ HEIGHT }}}" tabindex="-1"></canvas>
     <div id="unity-loading-bar">
       <div id="unity-logo"></div>
@@ -89,6 +99,31 @@
     </div>
     <div id="unity-warning"></div>
   </div>
+
+  <script>
+    function setResolution(width, height) {
+      document.getElementById('resolution-selector').style.display = 'none';
+      document.getElementById('unity-container').style.display = 'flex';
+      document.getElementById('unity-canvas').width = width;
+      document.getElementById('unity-canvas').height = height;
+      // Здесь можно добавить вызов функции инициализации Unity
+      if (typeof createUnityInstance === 'function') {
+        createUnityInstance(document.querySelector("#unity-canvas"), {
+          dataUrl: "{{{ LOADER_DATA }}}",
+          frameworkUrl: "{{{ FRAMEWORK_URL }}}",
+          codeUrl: "{{{ CODE_URL }}}",
+          streamingAssetsUrl: "{{{ STREAMING_ASSETS_URL }}}",
+          companyName: "{{{ COMPANY_NAME }}}",
+          productName: "{{{ PRODUCT_NAME }}}",
+          productVersion: "{{{ PRODUCT_VERSION }}}",
+          showBanner: false,
+          webglContextAttributes: {
+            preserveDrawingBuffer: true
+          }
+        });
+      }
+    }
+  </script>
 
   <!-- Load Unity WebGL-related script -->
   <script src="unity-loader.js"></script>
