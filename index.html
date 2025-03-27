@@ -13,6 +13,10 @@
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script> <!-- TonConnect UI -->
   <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
+  <!-- Сначала загружаем скрипт, определяющий initAnalytics -->
+  <script src="telegram-analytics.js"></script>
+
+  <!-- Затем загружаем скрипт, который вызывает initAnalytics в onload -->
   <script async src="https://tganalytics.xyz/index.js" onload="initAnalytics()" type="text/javascript">
   </script>
 
@@ -88,7 +92,7 @@
   <script src="unity-loader.js"></script>
   <!-- Load Telegram-related script -->
   <script src="telegram-integration.js"></script>
-  <script src="telegram-analytics.js"></script>
+  <!-- <script src="telegram-analytics.js"></script> --> <!-- Удаляем отсюда -->
 
 </body>
 

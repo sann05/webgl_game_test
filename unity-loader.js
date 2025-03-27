@@ -36,23 +36,23 @@ var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
 var config = {
     dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
     frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
-    #if USE_THREADS
+#if USE_THREADS
     workerUrl: buildUrl + "/{{{ WORKER_FILENAME }}}",
-    #endif
+#endif
 #if USE_WASM
     codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
-    #endif
+#endif
 #if MEMORY_FILENAME
     memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
-    #endif
+#endif
 #if SYMBOLS_FILENAME
     symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
-    #endif
+#endif
     streamingAssetsUrl: "StreamingAssets",
     companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
-productName: { { { JSON.stringify(PRODUCT_NAME) } } },
-productVersion: { { { JSON.stringify(PRODUCT_VERSION) } } },
-showBanner: unityShowBanner,
+    productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+    productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+    showBanner: unityShowBanner,
 };
 
 // Mobile device configuration
@@ -98,62 +98,73 @@ function startUnity(maxWidth) {
     config.matchWebGLToCanvasSize = true;
 
     // Adjust canvas size based on device type and orientation
-    // Используем maxWidth вместо 1080
+    // Используем maxWidth
     var width = Math.min(window.innerWidth, maxWidth);
     // Рассчитываем высоту на основе соотношения сторон из конфига Unity
     // Убедимся, что {{{ WIDTH }}} и {{{ HEIGHT }}} заменены реальными значениями при сборке
-    var aspectRatio = {{{ HEIGHT }
-}} / {{{ WIDTH }}}; / / Высота / Ширина
-var height = width * aspectRatio;
+    var aspectRatio = {{{ HEIGHT }}} / {{{ WIDTH }}}; // Исправлен синтаксис
+    var height = width * aspectRatio;
 
-if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    // Mobile device style: fill the whole browser client area with the game canvas:
-    container.className = "unity-mobile";
-    canvas.className = "unity-mobile";
-    // Устанавливаем стили для мобильных устройств, чтобы canvas занимал весь экран
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    // Сбрасываем max-width, так как на мобильных он не нужен в таком виде
-    canvas.style.maxWidth = 'none';
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+        container.className = "unity-mobile";
+        canvas.className = "unity-mobile";
+        // Устанавливаем стили для мобильных устройств, чтобы canvas занимал весь экран
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        // Сбрасываем max-width, так как на мобильных он не нужен в таком виде
+        canvas.style.maxWidth = 'none';
 
-    // ... (остальные мобильные стили, если есть) ...
+        // Устанавливаем viewport для мобильных устройств
+        var meta = document.querySelector('meta[name="viewport"]');
+        if (!meta) {
+             meta = document.createElement('meta');
+             meta.name = 'viewport';
+             document.getElementsByTagName('head')[0].appendChild(meta);
+        }
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
 
-} else {
-    // Desktop style: scale the game canvas to fit the browser client area:
-    // Устанавливаем максимальную ширину и вычисленную высоту
-    canvas.style.maxWidth = maxWidth + "px";
-    // Устанавливаем текущие размеры, которые будут масштабироваться CSS до max-width
-    // CSS 'width: 100% !important' будет управлять фактической шириной в контейнере
-    // Но мы можем установить начальные размеры для корректного рендеринга Unity
-    canvas.style.width = width + "px";
-    canvas.style.height = height + "px";
-}
+        // Устанавливаем размеры рендеринга с учетом devicePixelRatio
+        var devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = width * devicePixelRatio;
+        canvas.height = height * devicePixelRatio;
 
-loadingBar.style.display = "block"; // Показываем индикатор загрузки здесь
+    } else {
+        // Desktop style: scale the game canvas to fit the browser client area:
+        // Устанавливаем максимальную ширину и вычисленную высоту
+        canvas.style.maxWidth = maxWidth + "px";
+        // Устанавливаем текущие размеры, которые будут масштабироваться CSS до max-width
+        // CSS 'width: 100% !important' будет управлять фактической шириной в контейнере
+        // Но мы можем установить начальные размеры для корректного рендеринга Unity
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+    }
 
-// Load the Unity WebGL build
-var script = document.createElement("script");
-script.src = loaderUrl;
-script.onload = () => {
-    createUnityInstance(canvas, config, (progress) => {
-        progressBarFull.style.width = 100 * progress + "%";
-    }).then((instance) => {
-        window.unityInstance = instance; // Set the global unityInstance variable
-        loadingBar.style.display = "none";
-        // Кнопка fullscreen теперь настраивается здесь, после создания instance
-        // if (fullscreenButton) { // Проверяем, существует ли кнопка
-        //   fullscreenButton.onclick = () => {
-        //     window.unityInstance.SetFullscreen(1);
-        //   };
-        // }
-        // --- Примечание: Логика кнопки fullscreen закомментирована,
-        // --- так как ее нет в вашем index.html по умолчанию.
-        // --- Если она вам нужна, раскомментируйте и убедитесь, что кнопка есть в HTML.
-    }).catch((message) => {
-        alert(`Failed to load Unity instance: ${message}`);
-    });
-};
-document.body.appendChild(script);
+    loadingBar.style.display = "block"; // Показываем индикатор загрузки здесь
+
+    // Load the Unity WebGL build
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+            progressBarFull.style.width = 100 * progress + "%";
+        }).then((instance) => {
+            unityInstance = instance; // Используем глобальную переменную
+            loadingBar.style.display = "none";
+            // Кнопка fullscreen теперь настраивается здесь, после создания instance
+            // if (fullscreenButton) { // Проверяем, существует ли кнопка
+            //   fullscreenButton.onclick = () => {
+            //     window.unityInstance.SetFullscreen(1);
+            //   };
+            // }
+            // --- Примечание: Логика кнопки fullscreen закомментирована,
+            // --- так как ее нет в вашем index.html по умолчанию.
+            // --- Если она вам нужна, раскомментируйте и убедитесь, что кнопка есть в HTML.
+        }).catch((message) => {
+            alert(`Failed to load Unity instance: ${message}`);
+        });
+    };
+    document.body.appendChild(script);
 }
 // --- Конец: Обертка логики запуска Unity в функцию ---
 
