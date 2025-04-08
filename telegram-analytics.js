@@ -3,8 +3,8 @@ if (typeof initAnalytics === 'undefined') {
     function initAnalytics() {
         if (window.telegramAnalytics) {
             window.telegramAnalytics.init({
-                token: 'eyJhcHBfbmFtZSI6IlpvbWJpZVRyYWluX1Rlc3QiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL1pvbWJpZVRyYWluSGVscGVyX2JvdCIsImFwcF9kb21haW4iOiJodHRwczovL3dlYmdsLWdhbWUtdGVzdC1uaW5lLnZlcmNlbC5hcHAvIn0=!Gm4sOTdTeAsk0czRm9BOyLrJ2RF4/XqfZPfFMc7B3vo=',
-                appName: 'ZombieTrain_Test',
+                token: 'eyJhcHBfbmFtZSI6IlpvbWJpZVRyYWluVCIsImFwcF91cmwiOiJodHRwczovL3QubWUvem9tYmlldHJhaW5ib3QiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly96b21iaWUtdHJhaW4tcHJvZC52ZXJjZWwuYXBwLyJ9!8oEkyiywYdZUVUg+s3WcfOfMM+7ZAKmwDeHppCBQT1Y=',
+                appName: 'ZombieTrainT',
             });
             console.log('Telegram Analytics initialized successfully');
         } else {
